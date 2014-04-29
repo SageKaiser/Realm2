@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Realm
+namespace Realm2
 {
     public class Item
     {

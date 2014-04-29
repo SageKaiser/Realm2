@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Realm
+namespace Realm2
 {
     public class Player
     {
@@ -17,7 +17,7 @@ namespace Realm
 
             public bool on_fire = false, cursed = false, stunned = false, guarded = false, blinded = false, phased = false;
 
-            public Realm.Combat.CommandTable abilities;
+            public Realm2.Combat.CommandTable abilities;
 
             public int[] last_inn = new int[2];
 
@@ -190,7 +190,7 @@ namespace Realm
                 def = 1;
                 intl = 1;
                 backpack = new List<Item>();
-                abilities = new Realm.Combat.CommandTable();
+                abilities = new Realm2.Combat.CommandTable();
                 abilities.AddCommand(new Combat.BasicAttack("Basic Attack", 'b'));
             }
         }

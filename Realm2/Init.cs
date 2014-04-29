@@ -11,7 +11,7 @@ using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Realm
+namespace Realm2
 {
     public class Init
     {

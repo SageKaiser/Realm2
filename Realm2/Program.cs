@@ -4,16 +4,16 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Realm
+namespace Realm2
 {
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
             try
             {
-                Console.SetWindowSize(Console.LargestWindowWidth - 4, Console.LargestWindowHeight);
-                NativeMethods.ShowWindow(NativeMethods.ThisConsole, NativeMethods.MAXIMIZE);
+                InitWinforms();
                 if (args.Contains("-wipe"))
                 {
                     try { File.Delete(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm"); }
@@ -32,15 +32,23 @@ namespace Realm
                     catch { }
                 }
                 if (args.Contains("-noachievements"))
-                    Realm.Main.achievements_disabled = true;
+                    Realm2.Main.achievements_disabled = true;
                 if (args.Contains("-devmode"))
-                    Realm.Main.devmode = true;
+                    Realm2.Main.devmode = true;
                 Init.Initialize();
             }
             catch (Exception e)
             {
                 Save.WriteError(e);
             }
+        }
+        static void InitWinforms()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Realm2.Main.form = new Form1();
+            Application.Idle += Realm2.Main.form.Application_Idle;
+            Application.Run(Realm2.Main.form);
         }
     }
 }

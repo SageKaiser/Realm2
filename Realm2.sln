@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.20827.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Realm", "Realm\Realm.csproj", "{7E908F6D-7AB2-453A-AD38-BE532194BB62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Realm2", "Realm2\Realm2.csproj", "{7E908F6D-7AB2-453A-AD38-BE532194BB62}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "update", "update\update.csproj", "{4E0172D6-E53C-4734-BF2E-7D852D562489}"
 EndProject

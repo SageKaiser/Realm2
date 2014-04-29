@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Realm
+namespace Realm2
 {
     public struct Point
     {

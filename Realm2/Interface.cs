@@ -5,7 +5,7 @@ using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Realm
+namespace Realm2
 {
     public static class Interface
     {
@@ -34,15 +34,15 @@ namespace Realm
         }
         public static void typeNoDelay(string src, ConsoleColor color)
         {
-            Console.WriteLine(src, color);
+            Main.form.mainText.Text += src;
         }
         public static void type(string src, int speed)
         {
             Main.is_typing = true;
-            Console.WriteLine("\r\n");
+            Main.form.mainText.Text += "\r\n";
             foreach (char c in src)
             {
-                Console.Write(c);
+                Main.form.mainText.Text += c;
                 Thread.SpinWait(speed * 1000000);
             }
             Main.is_typing = false;
@@ -50,10 +50,10 @@ namespace Realm
         public static void type(string src)
         {
             Main.is_typing = true;
-            Console.WriteLine("\r\n");
+            Main.form.mainText.Text += "\r\n";
             foreach (char c in src)
             {
-                Console.Write(c);
+                Main.form.mainText.Text += c;
                 Thread.SpinWait(1000000);
             }
             Main.is_typing = false;
@@ -108,9 +108,10 @@ namespace Realm
         public static void typeOnSameLine(string src)
         {
             Main.is_typing = true;
+            Main.form.mainText.Text += "\r\n";
             foreach (char c in src)
             {
-                Console.Write(c);
+                Main.form.mainText.Text += c;
                 Thread.SpinWait(1000000);
             }
             Main.is_typing = false;
@@ -118,177 +119,150 @@ namespace Realm
         public static void typeOnSameLine(string src, int speed)
         {
             Main.is_typing = true;
+            Main.form.mainText.Text += "\r\n";
             foreach (char c in src)
             {
-                Console.Write(c);
-                Thread.SpinWait(1000000 * speed);
+                Main.form.mainText.Text += c;
+                Thread.SpinWait(speed * 1000000);
             }
             Main.is_typing = false;
         }
         public static void typeOnSameLine(string src, ConsoleColor color)
         {
             Main.is_typing = true;
-            Console.ForegroundColor = color;
+            Main.form.mainText.Text += "\r\n";
             foreach (char c in src)
             {
-                Console.Write(c);
+                Main.form.mainText.Text += c;
                 Thread.SpinWait(1000000);
             }
             Main.is_typing = false;
-            Console.ResetColor();
         }
         public static void typeOnSameLine(string src, int speed, ConsoleColor color)
         {
             Main.is_typing = true;
-            Console.ForegroundColor = color;
+            Main.form.mainText.Text += "\r\n";
             foreach (char c in src)
             {
-                Console.Write(c);
-                Thread.SpinWait(1000000 * speed);
+                Main.form.mainText.Text += c;
+                Thread.SpinWait(speed * 1000000);
             }
             Main.is_typing = false;
-            Console.ResetColor();
         }
         public static void type(string src, ConsoleColor color)
         {
             Main.is_typing = true;
-            Console.ForegroundColor = color;
-            Console.WriteLine("\r\n");
+            Main.form.mainText.Text += "\r\n";
             foreach (char c in src)
             {
-                Console.Write(c);
+                Main.form.mainText.Text += c;
                 Thread.SpinWait(1000000);
             }
             Main.is_typing = false;
-            Console.ResetColor();
         }
         public static void type(string src, int speed, ConsoleColor color)
         {
             Main.is_typing = true;
-            Console.ForegroundColor = color;
-            Console.WriteLine("\r\n");
+            Main.form.mainText.Text += "\r\n";
             foreach (char c in src)
             {
-                Console.Write(c);
-                Thread.SpinWait(1000000 * speed);
+                Main.form.mainText.Text += c;
+                Thread.SpinWait(speed * 1000000);
             }
             Main.is_typing = false;
-            Console.ResetColor();
         }
         public static void type(string src, bool rainbow)
         {
-            if (rainbow)
+            //if (rainbow)
+            //{
+            //    Main.is_typing = true;
+            //    List<ConsoleColor> colors = new List<ConsoleColor> { ConsoleColor.Blue, ConsoleColor.Cyan, ConsoleColor.DarkMagenta, ConsoleColor.Green, ConsoleColor.Magenta, ConsoleColor.Red, ConsoleColor.White, ConsoleColor.Yellow };
+            //    Console.WriteLine("\r\n");
+            //    string[] words = src.Split();
+            //    int i = 0;
+            //    foreach (string word in words)
+            //    {
+            //        if (word != words[0])
+            //            Console.Write(" ");
+            //        Console.ForegroundColor = colors[i];
+            //        foreach (char c in word)
+            //        {
+            //            Console.Write(c);
+            //            Thread.SpinWait(1000000);
+            //        }
+            //        i++;
+            //        if (i > colors.Count - 1)
+            //            i = 0;
+            //    }
+            //    Main.is_typing = false;
+            //    Console.ResetColor();
+            //}
+            //else
+            //{
+            //    Main.is_typing = true;
+            //    Console.WriteLine("\r\n");
+            //    foreach (char c in src)
+            //    {
+            //        Console.Write(c);
+            //        Thread.SpinWait(1000000);
+            //    }
+            //    Main.is_typing = false;
+            //}
+            Main.is_typing = true;
+            Main.form.mainText.Text += "\r\n";
+            foreach (char c in src)
             {
-                Main.is_typing = true;
-                List<ConsoleColor> colors = new List<ConsoleColor> { ConsoleColor.Blue, ConsoleColor.Cyan, ConsoleColor.DarkMagenta, ConsoleColor.Green, ConsoleColor.Magenta, ConsoleColor.Red, ConsoleColor.White, ConsoleColor.Yellow };
-                Console.WriteLine("\r\n");
-                string[] words = src.Split();
-                int i = 0;
-                foreach (string word in words)
-                {
-                    if (word != words[0])
-                        Console.Write(" ");
-                    Console.ForegroundColor = colors[i];
-                    foreach (char c in word)
-                    {
-                        Console.Write(c);
-                        Thread.SpinWait(1000000);
-                    }
-                    i++;
-                    if (i > colors.Count - 1)
-                        i = 0;
-                }
-                Main.is_typing = false;
-                Console.ResetColor();
+                Main.form.mainText.Text += c;
+                Thread.SpinWait(1000000);
             }
-            else
-            {
-                Main.is_typing = true;
-                Console.WriteLine("\r\n");
-                foreach (char c in src)
-                {
-                    Console.Write(c);
-                    Thread.SpinWait(1000000);
-                }
-                Main.is_typing = false;
-            }
+            Main.is_typing = false;
         }
         public static void type(string src, int speed, bool rainbow)
         {
-            if (rainbow)
+            //if (rainbow)
+            //{
+            //    Main.is_typing = true;
+            //    List<ConsoleColor> colors = new List<ConsoleColor> { ConsoleColor.Blue, ConsoleColor.Cyan, ConsoleColor.DarkMagenta, ConsoleColor.Green, ConsoleColor.Magenta, ConsoleColor.Red, ConsoleColor.White, ConsoleColor.Yellow };
+            //    Console.WriteLine("\r\n");
+            //    string[] words = src.Split();
+            //    int i = 0;
+            //    foreach (string word in words)
+            //    {
+            //        if (word != words[0])
+            //            Console.Write(" ");
+            //        Console.ForegroundColor = colors[i];
+            //        foreach (char c in word)
+            //        {
+            //            Console.Write(c);
+            //            Thread.SpinWait(1000000 * speed);
+            //        }
+            //        i++;
+            //        if (i > colors.Count - 1)
+            //            i = 0;
+            //    }
+            //    Main.is_typing = false;
+            //    Console.ResetColor();
+            //}
+            //else
+            //{
+            //    Main.is_typing = true;
+            //    Console.WriteLine("\r\n");
+            //    foreach (char c in src)
+            //    {
+            //        Console.Write(c);
+            //        Thread.SpinWait(1000000 * speed);
+            //    }
+            //    Main.is_typing = false;
+            //}
+            Main.is_typing = true;
+            Main.form.mainText.Text += "\r\n";
+            foreach (char c in src)
             {
-                Main.is_typing = true;
-                List<ConsoleColor> colors = new List<ConsoleColor> { ConsoleColor.Blue, ConsoleColor.Cyan, ConsoleColor.DarkMagenta, ConsoleColor.Green, ConsoleColor.Magenta, ConsoleColor.Red, ConsoleColor.White, ConsoleColor.Yellow };
-                Console.WriteLine("\r\n");
-                string[] words = src.Split();
-                int i = 0;
-                foreach (string word in words)
-                {
-                    if (word != words[0])
-                        Console.Write(" ");
-                    Console.ForegroundColor = colors[i];
-                    foreach (char c in word)
-                    {
-                        Console.Write(c);
-                        Thread.SpinWait(1000000 * speed);
-                    }
-                    i++;
-                    if (i > colors.Count - 1)
-                        i = 0;
-                }
-                Main.is_typing = false;
-                Console.ResetColor();
+                Main.form.mainText.Text += c;
+                Thread.SpinWait(1000000);
             }
-            else
-            {
-                Main.is_typing = true;
-                Console.WriteLine("\r\n");
-                foreach (char c in src)
-                {
-                    Console.Write(c);
-                    Thread.SpinWait(1000000 * speed);
-                }
-                Main.is_typing = false;
-            }
-        }
-        public static ConsoleKeyInfo readkey()
-        {
-            while (Main.is_typing)
-            {
-                while (Console.KeyAvailable) Console.ReadKey(true);
-                ConsoleKeyInfo key = Console.ReadKey(true);
-            }
-            return Console.ReadKey();
-        }
-        public static string readinput()
-        {
-            while (Main.is_typing)
-            {
-                while (Console.KeyAvailable) Console.ReadKey(true);
-                ConsoleKeyInfo key = Console.ReadKey(true);
-            }
-            return Console.ReadLine().ToLower();
-        }
-        public static string readinput(bool ExactSpelling)
-        {
-            if (ExactSpelling)
-            {
-                while (Main.is_typing)
-                {
-                    while (Console.KeyAvailable) Console.ReadKey(true);
-                    ConsoleKeyInfo key = Console.ReadKey(true);
-                }
-                return Console.ReadLine();
-            }
-            else
-            {
-                while (Main.is_typing)
-                {
-                    while (Console.KeyAvailable) Console.ReadKey(true);
-                    ConsoleKeyInfo key = Console.ReadKey(true);
-                }
-                return Console.ReadLine().ToLower();
-            }
+            Main.is_typing = false;
+       
         }
         public static void drawmap()
         {
@@ -332,49 +306,6 @@ namespace Realm
             letters[0] = char.ToUpper(letters[0]);
             // return the array made of the new char array
             return new string(letters);
-        }
-        public static SecureString getPassword()
-        {
-            SecureString pwd = new SecureString();
-            while (true)
-            {
-                ConsoleKeyInfo i = Console.ReadKey(true);
-                if (i.Key == ConsoleKey.Enter)
-                {
-                    break;
-                }
-                else if (i.Key == ConsoleKey.Backspace)
-                {
-                    try
-                    {
-                        pwd.RemoveAt(pwd.Length - 1);
-                        Console.Write("\b \b");
-                    }
-                    catch(ArgumentOutOfRangeException)
-                    {
-
-                    }
-                }
-                else
-                {
-                    pwd.AppendChar(i.KeyChar);
-                    Console.Write("*");
-                }
-            }
-            return pwd;
-        }
-        public static String SecureStringToString(SecureString value)
-        {
-            IntPtr bstr = Marshal.SecureStringToBSTR(value);
-
-            try
-            {
-                return Marshal.PtrToStringBSTR(bstr);
-            }
-            finally
-            {
-                Marshal.FreeBSTR(bstr);
-            }
         }
     }
 }

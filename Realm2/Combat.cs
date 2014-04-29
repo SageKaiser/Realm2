@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Realm
+namespace Realm2
 {
     public class Combat
     {
@@ -38,7 +38,7 @@ namespace Realm
                     Interface.type("\r\nAVAILABLE MOVES:", ConsoleColor.Cyan);
                     Interface.type("-------------", ConsoleColor.Cyan);
                     int i = 0;
-                    foreach (Realm.Combat.Command c in Main.Player.abilities.commands.Values)
+                    foreach (Realm2.Combat.Command c in Main.Player.abilities.commands.Values)
                     {
                         string src = "||   " + c.cmdchar + ". " + c.name;
                         Interface.type(src, ConsoleColor.Cyan);
