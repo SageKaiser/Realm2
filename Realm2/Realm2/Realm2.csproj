@@ -68,6 +68,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Command.cs" />
     <Compile Include="DownloadNewVersionWindow.xaml.cs">
       <DependentUpon>DownloadNewVersionWindow.xaml</DependentUpon>
     </Compile>

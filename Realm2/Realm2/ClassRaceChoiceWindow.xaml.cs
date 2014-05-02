@@ -10,32 +10,25 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Realm2
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ClassRaceChoiceWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ClassRaceChoiceWindow : Window
     {
-        public MainWindow()
+        public ClassRaceChoiceWindow()
         {
             InitializeComponent();
         }
 
-        private void mainWindow_Loaded(object sender, RoutedEventArgs e)
+        private void raceBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Init i = new Init();
-            i.Initialize(this);
-        }
-
-        private void inputText_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
+            switch(raceBox.Text)
             {
-                Program.main.HandleInput(this.inputText.Text);
+
             }
         }
     }

@@ -26,7 +26,18 @@ namespace Realm2
         {
             BrushConverter bc = new BrushConverter();
             TextRange tr = new TextRange(box.Document.ContentEnd, box.Document.ContentEnd);
-            tr.Text = text;
+            tr.Text = text + "\r\n";
+            try { tr.ApplyPropertyValue(TextElement.ForegroundProperty, bc.ConvertFromString(color)); }
+            catch (FormatException) { }
+        }
+        public static void AppendText(this RichTextBox box, string text, string color, bool sameLine)
+        {
+            BrushConverter bc = new BrushConverter();
+            TextRange tr = new TextRange(box.Document.ContentEnd, box.Document.ContentEnd);
+            if (!sameLine)
+                tr.Text = text + "\r\n";
+            else
+                tr.Text = text;
             try { tr.ApplyPropertyValue(TextElement.ForegroundProperty, bc.ConvertFromString(color)); }
             catch (FormatException) { }
         }

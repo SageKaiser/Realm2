@@ -1,6 +1,7 @@
 ﻿<Window x:Name="mainWindow" x:Class="Realm2.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="600" Width="900" Loaded="mainWindow_Loaded">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="600" Width="900" Loaded="mainWindow_Loaded"
+        FocusManager.FocusedElement="{Binding ElementName=inputText}">
     <Viewbox>
         <Grid>
             <StackPanel HorizontalAlignment="Left" Height="549" Margin="10,10,0,0" VerticalAlignment="Top" Width="654">
@@ -11,7 +12,7 @@
                         </Paragraph>
                     </FlowDocument>
                 </RichTextBox>
-                <TextBox x:Name="inputText" Height="100" TextWrapping="Wrap"/>
+                <TextBox x:Name="inputText" Height="100" TextWrapping="Wrap" KeyUp="inputText_KeyUp"/>
 
             </StackPanel>
             <StackPanel HorizontalAlignment="Left" Height="549" Margin="669,10,0,0" VerticalAlignment="Top" Width="213">

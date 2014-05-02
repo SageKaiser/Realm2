@@ -46,6 +46,8 @@ namespace Realm2
                 }
                 Process.Start("update.exe");
             }
+            w.Close();
+            this.Close();
             Environment.Exit(0);
         }
     }

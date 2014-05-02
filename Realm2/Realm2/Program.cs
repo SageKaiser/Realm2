@@ -12,12 +12,16 @@ namespace Realm2
     {
         public static Main main;
 
+        public static bool noUpdate = false;
+
         [DllImport("wininet.dll")]
         public extern static bool InternetGetConnectedState(out int Description, int ReservedValue);
 
         [STAThread]
         static void Main(string[] args)
         {
+            if (args.Contains("-noupdate"))
+                noUpdate = true;
             Realm2.App app = new Realm2.App();
             app.InitializeComponent();
             app.Run();

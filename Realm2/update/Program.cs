@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace update
@@ -12,6 +13,7 @@ namespace update
         {
             try
             {
+                Thread.Sleep(1000);
                 string temppath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe";
                 string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Realm2.exe";
                 File.Delete(path);
