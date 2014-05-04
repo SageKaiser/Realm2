@@ -9,8 +9,8 @@
             <ComboBoxItem Name="cbi3">Dwarf</ComboBoxItem>
             <ComboBoxItem Name="cbi4">Orc</ComboBoxItem>
             <ComboBoxItem Name="cbi5">Lycanthrope</ComboBoxItem>
-            <ComboBoxItem Name="cbi6">Half Dragon</ComboBoxItem>
-            <ComboBoxItem Name="cbi7">Halfling</ComboBoxItem>
+            <ComboBoxItem Name="cbi6">Halfdragon</ComboBoxItem>
+            <ComboBoxItem Name="cbi7">Revenant</ComboBoxItem>
             <ComboBoxItem Name="cbi8">Djinn</ComboBoxItem>
             <ComboBoxItem Name="cbi9">Vampire</ComboBoxItem>
             <ComboBoxItem Name="cbi10">Demon</ComboBoxItem>
@@ -19,13 +19,13 @@
             <ComboBoxItem Name="cbi11">Knight</ComboBoxItem>
             <ComboBoxItem Name="cbi12">Paladin</ComboBoxItem>
             <ComboBoxItem Name="cbi13">Monk</ComboBoxItem>
-            <ComboBoxItem Name="cbi14">Elemental Mage</ComboBoxItem>
-            <ComboBoxItem Name="cbi15">Arcane Mage</ComboBoxItem>
-            <ComboBoxItem Name="cbi16">Void Mage</ComboBoxItem>
+            <ComboBoxItem Name="cbi14">Mage</ComboBoxItem>
+            <ComboBoxItem Name="cbi15">Dread Knight</ComboBoxItem>
+            <ComboBoxItem Name="cbi16">Ranger</ComboBoxItem>
             <ComboBoxItem Name="cbi17">Rogue</ComboBoxItem>
             <ComboBoxItem Name="cbi18">Blade Dancer</ComboBoxItem>
             <ComboBoxItem Name="cbi19">Ninja</ComboBoxItem>
-            <ComboBoxItem Name="cbi20">Dread Knight</ComboBoxItem>
+            <ComboBoxItem Name="cbi20">Jester</ComboBoxItem>
         </ComboBox>
         <Label Content="Race" HorizontalAlignment="Left" Margin="10,117,0,0" VerticalAlignment="Top" FontSize="24"/>
         <Label Content="Class" HorizontalAlignment="Left" Margin="318,117,0,0" VerticalAlignment="Top" FontSize="24"/>

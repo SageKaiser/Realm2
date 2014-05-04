@@ -26,6 +26,7 @@ namespace Realm2
         public GameState gm;
         public Player player;
         public Random rand;
+        public Enemy enemy;
         MainWindow mw;
         
         public Main(MainWindow mainWindow)

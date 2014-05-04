@@ -16,4 +16,15 @@ namespace Realm2
             return false;
         }
     }
+
+    public class Ability : Command
+    {
+        public enum type
+        {
+            Physical,
+            Magical
+        }
+        public type Type;
+        public int manacost;
+    }
 }

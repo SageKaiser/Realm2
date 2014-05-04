@@ -56,6 +56,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CombatWindow.xaml.cs">
+      <DependentUpon>CombatWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dice.cs" />
+    <Compile Include="Enemy.cs" />
+    <Compile Include="StatusEffect.cs" />
+    <Page Include="ClassRaceChoiceWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CombatWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DownloadNewVersionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -67,6 +81,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ClassRaceChoiceWindow.xaml.cs">
+      <DependentUpon>ClassRaceChoiceWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Command.cs" />
     <Compile Include="DownloadNewVersionWindow.xaml.cs">
