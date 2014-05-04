@@ -12,7 +12,7 @@ namespace Realm2
         public int hp, maxhp, atk, def, spd, intl;
         public List<string> abilities;
         public List<StatusEffect> effects;
-        public bool canAttack;
+        public bool canAttack, canBeHit = true, canHeal = true;
         public void Attack(Player player)
         {
             return;

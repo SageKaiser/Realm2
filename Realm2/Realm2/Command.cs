@@ -16,7 +16,6 @@ namespace Realm2
             return false;
         }
     }
-
     public class Ability : Command
     {
         public enum type
@@ -26,5 +25,21 @@ namespace Realm2
         }
         public type Type;
         public int manacost;
+    }
+    public class Cleanse : Ability
+    {
+        public Cleanse()
+        {
+            Type = type.Magical;
+            manacost = 0;
+        }
+        public override bool Execute(object target)
+        {
+            Player p = target as Player;
+            for (int i = p.effects.Count; i > -1; i-- )
+                if (p.effects[i].isNegative)
+                    p.effects.RemoveAt(i);
+            return true;
+        }
     }
 }

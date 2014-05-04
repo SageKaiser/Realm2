@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace Realm2
         }
         public Dice d;
         public int turns;
-        public bool isPlayer;
+        public bool isPlayer, isNegative = true;
         public Player p;
         public Enemy e;
         public CombatWindow window;
@@ -33,6 +34,7 @@ namespace Realm2
                 e = Target as Enemy;
             }
         }
+        public virtual void Expire() { }
     }
     public class OnFire : StatusEffect
     {
@@ -42,6 +44,10 @@ namespace Realm2
             turns = Turns;
             power = Power;
             window = cw;
+            if (isPlayer)
+                cw.combatText.AppendText(p.name + " has been set ablaze!", "Crimson");
+            else
+                cw.combatText.AppendText(e.name + " has been set ablaze!", "Aqua");
         }
         public override void ApplyEffect(object Target)
         {
@@ -65,6 +71,10 @@ namespace Realm2
         {
             turns = Turns;
             window = cw;
+            if (isPlayer)
+                cw.combatText.AppendText(p.name + " was stunned for " + turns + " turns!", "Crimson");
+            else
+                cw.combatText.AppendText(e.name + " was stunned for " + turns + " turns!", "Aqua");
         }
         public override void ApplyEffect(object Target)
         {
@@ -80,17 +90,28 @@ namespace Realm2
                 window.combatText.AppendText(e.name + " is stunned!", "Aqua");
             }
         }
+        public override void Expire()
+        {
+            if (isPlayer)
+                p.canAttack = true;
+            else
+                e.canAttack = true;
+        }
     }
-    public class Curse : StatusEffect
+    public class Cursed : StatusEffect
     {
         CurseType type;
         int strength;
-        public Curse(int Turns, CombatWindow cw, CurseType Type, int degree)
+        public Cursed(int Turns, CombatWindow cw, CurseType Type, int degree)
         {
             turns = Turns;
             window = cw;
             type = Type;
             strength = degree;
+            if (isPlayer)
+                cw.combatText.AppendText(p.name + " has placed a(n) " + Type + " Curse on " + e.name + " for " + turns + " turns!", "Crimson");
+            else
+                cw.combatText.AppendText(e.name + " has placed a(n) " + Type + " Curse on " + p.name + " for " + turns + " turns!", "Aqua");
         }
         public override void ApplyEffect(object Target)
         {
@@ -125,6 +146,61 @@ namespace Realm2
                         break;
                 }
             }
+        }
+    }
+    public class Untargetable : StatusEffect
+    {
+        public Untargetable(CombatWindow cw)
+        {
+            isNegative = false;
+            window = cw;
+            turns = 1;
+            if (isPlayer)
+                cw.combatText.AppendText(p.name + " is now untargetable.", "Aqua");
+            else
+                cw.combatText.AppendText(e.name + " is now untargetable.", "Crimson");
+        }
+        public override void ApplyEffect(object Target)
+        {
+            base.ApplyEffect(Target);
+            if (isPlayer)
+                p.canBeHit = false;
+            else
+                e.canBeHit = false;
+        }
+        public override void Expire()
+        {
+            if (isPlayer)
+                p.canBeHit = true;
+            else
+                e.canBeHit = true;
+        }
+    }
+    public class HealBlock : StatusEffect
+    {
+        public HealBlock(int Turns, CombatWindow cw)
+        {
+            turns = Turns;
+            window = cw;
+            if (isPlayer)
+                cw.combatText.AppendText(p.name + " cannot heal for " + turns + " turns!", "Crimson");
+            else
+                cw.combatText.AppendText(e.name + " cannot heal for " + turns + " turns!", "Aqua");
+        }
+        public override void ApplyEffect(object Target)
+        {
+            base.ApplyEffect(Target);
+            if (isPlayer)
+                p.canHeal = false;
+            else
+                e.canHeal = false;
+        }
+        public override void Expire()
+        {
+            if (isPlayer)
+                p.canHeal = true;
+            else
+                e.canHeal = true;
         }
     }
 }

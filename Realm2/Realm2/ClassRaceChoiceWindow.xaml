@@ -18,7 +18,7 @@
         <ComboBox x:Name="classBox" HorizontalAlignment="Left" Margin="419,126,0,0" VerticalAlignment="Top" Width="120">
             <ComboBoxItem Name="cbi11">Knight</ComboBoxItem>
             <ComboBoxItem Name="cbi12">Paladin</ComboBoxItem>
-            <ComboBoxItem Name="cbi13">Monk</ComboBoxItem>
+            <ComboBoxItem Name="cbi13">Brawler</ComboBoxItem>
             <ComboBoxItem Name="cbi14">Mage</ComboBoxItem>
             <ComboBoxItem Name="cbi15">Dread Knight</ComboBoxItem>
             <ComboBoxItem Name="cbi16">Ranger</ComboBoxItem>

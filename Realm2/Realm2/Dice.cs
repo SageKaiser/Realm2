@@ -20,7 +20,7 @@ namespace Realm2
         }
         public bool misschance(int spd)
         {
-            int misschance = Dice.roll(1, 101 - (spd * 3));
+            int misschance = roll(1, 101 - (spd * 3));
             if (misschance == 1)
             {
                 return true;

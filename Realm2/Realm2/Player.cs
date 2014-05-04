@@ -11,7 +11,7 @@ namespace Realm2
         //enum Class
         //{
         //    Knight,
-        //    Paladin,
+        //    Lancer,
         //    Monk,
         //    Mage,
         //    Jester,
@@ -22,13 +22,13 @@ namespace Realm2
         //    Dreadknight
         //}
 
-        public int hp, maxhp, spd, basespeed, atk, baseattack, intl, baseintl, def, basedef, g, level, xp, xp_next, reputation;
+        public int mana, maxmana, hp, maxhp, spd, basespeed, atk, baseattack, intl, baseintl, def, basedef, g, level, xp, xp_next, reputation;
         public string name;
         public Item primary = new Item(), secondary = new Item(), armor = new Item(), accessory = new Item();
         public List<Item> backpack;
         public PlayerClass pClass;
         public Race pRace;
-        public bool canAttack;
+        public bool canAttack, canBeHit = true, canHeal = true;
         public List<Ability> combatAbilities;
         public List<StatusEffect> effects;
     }
@@ -168,64 +168,65 @@ namespace Realm2
             defperlvl = 1;
             desc = "Knights specialize in powerful Physical attacks and durability in battle.";
             abilities = new Dictionary<Ability, int>() { };
-            descdendants = new Tuple<PlayerClass, PlayerClass>(new Swordsman(), new Shieldmaster());
+            descdendants = new Tuple<PlayerClass, PlayerClass>(new Gladiator(), new Paladin());
         }
-        public class Swordsman : Knight
+        public class Gladiator : Knight
         {
-            public Swordsman()
+            public Gladiator()
             {
-                name = "Knight[Swordsman]";
+                name = "Knight[Gladiator]";
                 atkperlvl = 2;
                 spdperlvl = 1;
-                desc = "The Swordsman discipline causes Knights to become faster";
+                desc = "The Gladiator discipline causes Knights to become faster and stronger.";
                 abilities = new Dictionary<Ability, int>() { };
             }
         }
-        public class Shieldmaster : Knight
+        public class Paladin : Knight
         {
-            public Shieldmaster()
+            public Paladin()
             {
-                name = "Knight[Shieldmaster]";
-                hpperlvl = 1;
+                name = "Knight[Paladin]";
+                hpperlvl = 2;
                 defperlvl = 2;
-                desc = "Shieldmasters are Knights that specialize in defense.";
+                desc = "Paladins are holy warriors that specialize in defense.";
+                abilities = new Dictionary<Ability, int>() { {new Cleanse(), 7} };
+            }
+        }
+    }
+    public class Lancer : PlayerClass
+    {
+        public Lancer()
+        {
+            name = "Lancer";
+            atkperlvl = 2;
+            defperlvl = 1;
+            desc = "Lancers realy on their ability to make all-or-nothing attacks on their eneimies.";
+            abilities = new Dictionary<Ability, int>() { };
+        }
+        public class Dragoon : Lancer
+        {
+            public Dragoon()
+            {
+                name = "Lancer[Dragoon]";
+                spdperlvl = 3;
+                desc = "The Dragoon path relies on lightning fast multi-strikes.";
+                abilities = new Dictionary<Ability, int>() { };
+            }
+        }
+        public class Valkyrie : Lancer
+        {
+            public Valkyrie()
+            {
+                name = "Lancer[Valkyrie]";
+                atkperlvl = 3;
+                desc = "The Valkyrie stirkes with fiery fury, rendering targets incapable of healing.";
                 abilities = new Dictionary<Ability, int>() { };
             }
         }
     }
-    public class Paladin : PlayerClass
+    public class Brawler : PlayerClass
     {
-        public Paladin()
-        {
-            name = "Paladin";
-            hpperlvl = 1;
-            defperlvl = 2;
-            desc = "Paladins are holy warriors that focus on defensive combat.";
-            abilities = new Dictionary<Ability, int>() { };
-        }
-        public class Exorcist : Paladin
-        {
-            public Exorcist()
-            {
-                name = "Paladin[Exorcist]";
-                atkperlvl = 1;
-                spdperlvl = 1;
-                intperlvl = 1;
-                desc = "Exorcists are Paladins that specialize in the removal of evil from this world. Exorcists can call upon powerful incantations and spells to achieve their end.";
-                abilities = new Dictionary<Ability, int>() { };
-            }
-        }
-        public class Protector : Paladin
-        {
-            public Protector()
-            {
-                name = "Paladin[Protector]";
-                hpperlvl = 1;
-                defperlvl = 2;
-                desc = "Protector Paladins specialize in shielding abilities and negating damage.";
-                abilities = new Dictionary<Ability, int>() { };
-            }
-        }
+
     }
     #endregion
 }
