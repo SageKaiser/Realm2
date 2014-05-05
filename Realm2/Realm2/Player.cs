@@ -202,6 +202,7 @@ namespace Realm2
             defperlvl = 1;
             desc = "Lancers realy on their ability to make all-or-nothing attacks on their eneimies.";
             abilities = new Dictionary<Ability, int>() { };
+            descdendants = new Tuple<PlayerClass, PlayerClass>(new Dragoon(), new Valkyrie());
         }
         public class Dragoon : Lancer
         {
@@ -226,6 +227,22 @@ namespace Realm2
     }
     public class Brawler : PlayerClass
     {
+        public Brawler()
+        {
+            name = "Brawler";
+            atkperlvl = 1;
+            defperlvl = 1;
+            spdperlvl = 1;
+            desc = "A brawler relies on his speed and the power of his fists to battle.";
+            abilities = new Dictionary<Ability, int>() { };
+        }
+        public class Monk : Brawler
+        {
+            public Monk()
+            {
+
+            }
+        }
 
     }
     #endregion
