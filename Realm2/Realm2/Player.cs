@@ -18,7 +18,7 @@ namespace Realm2
         //    Ranger,
         //    Rogue,
         //    BladeDancer,
-        //    Ninja,
+        //    Assassin,
         //    Dreadknight
         //}
 
@@ -35,12 +35,19 @@ namespace Realm2
     public class PlayerClass
     {
         public int hpperlvl, atkperlvl, defperlvl, spdperlvl, intperlvl;
-
         public string desc, name;
-
+        public WeaponType preferredType;
+        public List<WeaponType> types = new List<WeaponType>();
         public Dictionary<Ability, int> abilities;
-
         public Tuple<PlayerClass, PlayerClass> descdendants;
+
+        public bool canEquipItem(Item i)
+        {
+            if (types.Contains(i.wt))
+                return true;
+            else
+                return false;
+        }
     }
     public class Race
     {
@@ -166,7 +173,9 @@ namespace Realm2
             hpperlvl = 1;
             atkperlvl = 1;
             defperlvl = 1;
-            desc = "Knights specialize in powerful Physical attacks and durability in battle.";
+            preferredType = WeaponType.Longsword;
+            desc = "Knights specialize in powerful Physical attacks and durability in battle.\r\nPreferred weapon type: " + preferredType;
+            types = new List<WeaponType>() { WeaponType.Longsword, WeaponType.Shortsword, WeaponType.Mace };
             abilities = new Dictionary<Ability, int>() { };
             descdendants = new Tuple<PlayerClass, PlayerClass>(new Gladiator(), new Paladin());
         }
@@ -177,7 +186,8 @@ namespace Realm2
                 name = "Knight[Gladiator]";
                 atkperlvl = 2;
                 spdperlvl = 1;
-                desc = "The Gladiator discipline causes Knights to become faster and stronger.";
+                preferredType = WeaponType.Shortsword;
+                desc = "The Gladiator discipline causes Knights to become faster and stronger.\r\nPreferred weapon type: " + preferredType;
                 abilities = new Dictionary<Ability, int>() { };
             }
         }
@@ -188,7 +198,8 @@ namespace Realm2
                 name = "Knight[Paladin]";
                 hpperlvl = 2;
                 defperlvl = 2;
-                desc = "Paladins are holy warriors that specialize in defense.";
+                preferredType = WeaponType.Mace;
+                desc = "Paladins are holy warriors that specialize in defense.\r\nPreferred weapon type: " + preferredType;
                 abilities = new Dictionary<Ability, int>() { {new Cleanse(), 7} };
             }
         }
@@ -200,7 +211,9 @@ namespace Realm2
             name = "Lancer";
             atkperlvl = 2;
             defperlvl = 1;
-            desc = "Lancers realy on their ability to make all-or-nothing attacks on their eneimies.";
+            preferredType = WeaponType.Lance;
+            desc = "Lancers realy on their ability to make all-or-nothing attacks on their eneimies.\r\nPreferred weapon type: " + preferredType;
+            types = new List<WeaponType>() { WeaponType.Longsword, WeaponType.Shortsword, WeaponType.Lance };
             abilities = new Dictionary<Ability, int>() { };
             descdendants = new Tuple<PlayerClass, PlayerClass>(new Dragoon(), new Valkyrie());
         }
@@ -210,7 +223,7 @@ namespace Realm2
             {
                 name = "Lancer[Dragoon]";
                 spdperlvl = 3;
-                desc = "The Dragoon path relies on lightning fast multi-strikes.";
+                desc = "The Dragoon path relies on lightning fast multi-strikes.\r\nPreferred weapon type: " + preferredType;
                 abilities = new Dictionary<Ability, int>() { };
             }
         }
@@ -220,7 +233,7 @@ namespace Realm2
             {
                 name = "Lancer[Valkyrie]";
                 atkperlvl = 3;
-                desc = "The Valkyrie stirkes with fiery fury, rendering targets incapable of healing.";
+                desc = "The Valkyrie stirkes with fiery fury, rendering targets incapable of healing.\r\nPreferred weapon type: " + preferredType;
                 abilities = new Dictionary<Ability, int>() { };
             }
         }
@@ -233,17 +246,147 @@ namespace Realm2
             atkperlvl = 1;
             defperlvl = 1;
             spdperlvl = 1;
-            desc = "A brawler relies on his speed and the power of his fists to battle.";
+            preferredType = WeaponType.Glove;
+            types = new List<WeaponType>() { WeaponType.Glove };
+            desc = "A Brawler relies on his speed and the power of his fists to battle.\r\nPreferred weapon type: " + preferredType;
+            descdendants = new Tuple<PlayerClass, PlayerClass>(new Monk(), new Boxer());
             abilities = new Dictionary<Ability, int>() { };
         }
         public class Monk : Brawler
         {
             public Monk()
             {
-
+                name = "Brawler[Monk]";
+                atkperlvl = 4;
+                defperlvl = 4;
+                spdperlvl = 4;
+                types = new List<WeaponType>();
+                desc = "A Monk uses on his bare fists to fight, relying in his incredible speed, defense, and power to defeat foes. A Monk cannot equip Primary or Secondary items.";
+                abilities = new Dictionary<Ability, int>() { };
             }
         }
-
+        public class Boxer : Brawler
+        {
+            public Boxer()
+            {
+                name = "Brawler[Boxer]";
+                atkperlvl = 2;
+                spdperlvl = 2;
+                desc = "A Boxer uses the speed of his powerful punches to defeat his foes.\r\nPreferred weapon type: " + preferredType;
+                abilities = new Dictionary<Ability, int>() { };
+            }
+        }
+    }
+    public class Mage : PlayerClass
+    {
+        public Mage()
+        {
+            name = "Mage";
+            defperlvl = 1;
+            intperlvl = 2;
+            preferredType = WeaponType.Staff;
+            types = new List<WeaponType>() { WeaponType.Staff, WeaponType.Book, WeaponType.Dagger };
+            desc = "Mages use powerful spells to destory their enemies.\r\nPreferred weapon type: " + preferredType;
+            descdendants = new Tuple<PlayerClass, PlayerClass>(new ArcaneMage(), new ElementalMage());
+            abilities = new Dictionary<Ability, int>() { };
+        }
+        public class ArcaneMage : Mage
+        {
+            public ArcaneMage()
+            {
+                name = "Mage[Arcane]";
+                intperlvl = 3;
+                atkperlvl = 1;
+                preferredType = WeaponType.Book;
+                desc = "Arcane Mages draw power from runes and curses, using knowledge from ancient spellweavers.\r\nPreferred weapon type: " + preferredType;
+                abilities = new Dictionary<Ability, int>() { };
+            }
+        }
+        public class ElementalMage : Mage
+        {
+            public ElementalMage()
+            {
+                name = "Mage[Elemental]";
+                intperlvl = 3;
+                spdperlvl = 1;
+                desc = "Elemental Mages use power from nature and the elements to smite their foes.\r\nPreferred weapon type: " + preferredType;
+                abilities = new Dictionary<Ability, int>() { };
+            }
+        }
+    }
+    public class Ranger : PlayerClass
+    {
+        public Ranger()
+        {
+            name = "Ranger";
+            spdperlvl = 2;
+            atkperlvl = 1;
+            preferredType = WeaponType.Bow;
+            types = new List<WeaponType>() { WeaponType.Bow, WeaponType.Gun, WeaponType.Dagger };
+            desc = "Rangers like to deal damage from afar.\r\nPreferred weapon type: " + preferredType;
+            descdendants = new Tuple<PlayerClass,PlayerClass>(new Archer(), new Gunslinger());
+            abilities = new Dictionary<Ability, int>() { };
+        }
+        public class Archer : Ranger
+        {
+            public Archer()
+            {
+                name = "Ranger[Archer]";
+                spdperlvl = 3;
+                atkperlvl = 2;
+                preferredType = WeaponType.Bow;
+                desc = "Archers use bow and arrow to take down enemies from a long range, while also specialize in dealing critical damage.\r\nPreferred weapon type: " + preferredType;
+                abilities = new Dictionary<Ability, int>() { };
+            }
+        }
+        public class Gunslinger : Ranger
+        {
+            public Gunslinger()
+            {
+                name = "Ranger[Gunslinger]";
+                atkperlvl = 3;
+                preferredType = WeaponType.Gun;
+                desc = "Gunslingers specialize in the exlusive use of firearms, however they make up for it with the ability to dual-wield.\r\nPreferred weapon type: " + preferredType;
+                abilities = new Dictionary<Ability, int>() { };
+            }
+        }
+    }
+    public class Rogue : PlayerClass
+    {
+        public Rogue()
+        {
+            name = "Rogue";
+            atkperlvl = 1;
+            spdperlvl = 2;
+            preferredType = WeaponType.Shortsword;
+            desc = "Rogues are quick swordsman who like to jump in and out of combat.\r\nPreferred weapon type: " + preferredType;
+            types = new List<WeaponType>() { WeaponType.Shortsword, WeaponType.Dagger };
+            abilities = new Dictionary<Ability, int>() { };
+            descdendants = new Tuple<PlayerClass, PlayerClass>(new Thief(), new Scout());
+        }
+        public class Thief : Rogue
+        {
+            public Thief()
+            {
+                name = "Rogue[Thief]";
+                spdperlvl = 4;
+                preferredType = WeaponType.Dagger;
+                types = new List<WeaponType>() { WeaponType.Dagger };
+                desc = "Thieves rely solely on speed to strike quickly or escape.\r\nPreferred weapon type: " + preferredType;
+                abilities = new Dictionary<Ability, int>() { };
+            }
+        }
+        public class Scout : Rogue
+        {
+            public Scout()
+            {
+                name = "Rogue[Scout]";
+                spdperlvl = 2;
+                atkperlvl = 2;
+                desc = "Scouts rely on mobility and rapid damge to execute foes.\r\nPreferred weapon type: " + preferredType;
+                abilities = new Dictionary<Ability, int>() { };
+            }
+        }
     }
     #endregion
 }

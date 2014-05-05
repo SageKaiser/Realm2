@@ -24,7 +24,7 @@
             <ComboBoxItem Name="cbi16">Ranger</ComboBoxItem>
             <ComboBoxItem Name="cbi17">Rogue</ComboBoxItem>
             <ComboBoxItem Name="cbi18">Blade Dancer</ComboBoxItem>
-            <ComboBoxItem Name="cbi19">Ninja</ComboBoxItem>
+            <ComboBoxItem Name="cbi19">Assassin</ComboBoxItem>
             <ComboBoxItem Name="cbi20">Jester</ComboBoxItem>
         </ComboBox>
         <Label Content="Race" HorizontalAlignment="Left" Margin="10,117,0,0" VerticalAlignment="Top" FontSize="24"/>

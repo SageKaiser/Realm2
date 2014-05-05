@@ -14,11 +14,14 @@ namespace Realm2
     {
         Longsword,
         Shortsword,
+        Lance,
         Glove,
         Mace, 
         Dagger,
         Staff,
-        Book
+        Book,
+        Bow,
+        Gun
     }
     public class Item
     {
