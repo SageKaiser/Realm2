@@ -8,21 +8,39 @@ namespace Realm2
 {
     public class Player
     {
-        //enum Class
-        //{
-        //    Knight,
-        //    Lancer,
-        //    Monk,
-        //    Mage,
-        //    Jester,
-        //    Ranger,
-        //    Rogue,
-        //    BladeDancer,
-        //    Assassin,
-        //    Dreadknight
-        //}
-
-        public int mana, maxmana, hp, maxhp, spd, basespeed, atk, baseattack, intl, baseintl, def, basedef, g, level, xp, xp_next, reputation;
+        public int mana, maxmana, maxhp, spd, basespeed, atk, baseattack, intl, baseintl, def, basedef, g, level, xp_next, reputation;
+        public int hp
+        {
+            get { return hp; }
+            set
+            {
+                if (hp >= 0)
+                    Program.main.gm = Main.GameState.Dead;
+                if (hp > maxhp)
+                    hp = maxhp;
+            }
+        }
+        public int xp
+        {
+            get { return xp_next; }
+            set
+            {
+                if (xp <= xp_next)
+                {
+                    int xp_overlap = xp > xp_next ? xp - xp_next : 0;
+                    xp = xp_overlap;
+                    level++;
+                    xp_next = level >= 10 ? 62 + (level - 10) * 7 : (level >= 5 ? 17 + (level - 5) * 3 : 17);
+                    maxmana += 3;
+                    mana = maxmana;
+                    maxhp += 3 + pClass.hpperlvl;
+                    hp += 3 + pClass.hpperlvl;
+                    atk += 1 + pClass.atkperlvl;
+                    def += 1 + pClass.defperlvl;
+                    spd += 1 + pClass.spdperlvl;
+                }
+            }
+        }
         public string name;
         public Item primary = new Item(), secondary = new Item(), armor = new Item(), accessory = new Item();
         public List<Item> backpack;
@@ -31,6 +49,11 @@ namespace Realm2
         public bool canAttack, canBeHit = true, canHeal = true;
         public List<Ability> combatAbilities;
         public List<StatusEffect> effects;
+        public Player()
+        {
+            level = 1;
+            xp_next = level >= 10 ? 62 + (level - 10) * 7 : (level >= 5 ? 17 + (level - 5) * 3 : 17);
+        }
     }
     public class PlayerClass
     {
@@ -39,7 +62,6 @@ namespace Realm2
         public WeaponType preferredType;
         public List<WeaponType> types = new List<WeaponType>();
         public Dictionary<Ability, int> abilities;
-        public Tuple<PlayerClass, PlayerClass> descdendants;
 
         public bool canEquipItem(Item i)
         {
@@ -177,31 +199,30 @@ namespace Realm2
             desc = "Knights specialize in powerful Physical attacks and durability in battle.\r\nPreferred weapon type: " + preferredType;
             types = new List<WeaponType>() { WeaponType.Longsword, WeaponType.Shortsword, WeaponType.Mace };
             abilities = new Dictionary<Ability, int>() { };
-            descdendants = new Tuple<PlayerClass, PlayerClass>(new Gladiator(), new Paladin());
         }
-        public class Gladiator : Knight
+    }
+    public class Gladiator : Knight
+    {
+        public Gladiator()
         {
-            public Gladiator()
-            {
-                name = "Knight[Gladiator]";
-                atkperlvl = 2;
-                spdperlvl = 1;
-                preferredType = WeaponType.Shortsword;
-                desc = "The Gladiator discipline causes Knights to become faster and stronger.\r\nPreferred weapon type: " + preferredType;
-                abilities = new Dictionary<Ability, int>() { };
-            }
+            name = "Knight[Gladiator]";
+            atkperlvl = 2;
+            spdperlvl = 1;
+            preferredType = WeaponType.Shortsword;
+            desc = "The Gladiator discipline causes Knights to become faster and stronger.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
         }
-        public class Paladin : Knight
+    }
+    public class Paladin : Knight
+    {
+        public Paladin()
         {
-            public Paladin()
-            {
-                name = "Knight[Paladin]";
-                hpperlvl = 2;
-                defperlvl = 2;
-                preferredType = WeaponType.Mace;
-                desc = "Paladins are holy warriors that specialize in defense.\r\nPreferred weapon type: " + preferredType;
-                abilities = new Dictionary<Ability, int>() { {new Cleanse(), 7} };
-            }
+            name = "Knight[Paladin]";
+            hpperlvl = 2;
+            defperlvl = 2;
+            preferredType = WeaponType.Mace;
+            desc = "Paladins are holy warriors that specialize in defense.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { { new Cleanse(), 7 } };
         }
     }
     public class Lancer : PlayerClass
@@ -215,27 +236,26 @@ namespace Realm2
             desc = "Lancers realy on their ability to make all-or-nothing attacks on their eneimies.\r\nPreferred weapon type: " + preferredType;
             types = new List<WeaponType>() { WeaponType.Longsword, WeaponType.Shortsword, WeaponType.Lance };
             abilities = new Dictionary<Ability, int>() { };
-            descdendants = new Tuple<PlayerClass, PlayerClass>(new Dragoon(), new Valkyrie());
         }
-        public class Dragoon : Lancer
+    }
+    public class Dragoon : Lancer
+    {
+        public Dragoon()
         {
-            public Dragoon()
-            {
-                name = "Lancer[Dragoon]";
-                spdperlvl = 3;
-                desc = "The Dragoon path relies on lightning fast multi-strikes.\r\nPreferred weapon type: " + preferredType;
-                abilities = new Dictionary<Ability, int>() { };
-            }
+            name = "Lancer[Dragoon]";
+            spdperlvl = 3;
+            desc = "The Dragoon path relies on lightning fast multi-strikes.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
         }
-        public class Valkyrie : Lancer
+    }
+    public class Valkyrie : Lancer
+    {
+        public Valkyrie()
         {
-            public Valkyrie()
-            {
-                name = "Lancer[Valkyrie]";
-                atkperlvl = 3;
-                desc = "The Valkyrie stirkes with fiery fury, rendering targets incapable of healing.\r\nPreferred weapon type: " + preferredType;
-                abilities = new Dictionary<Ability, int>() { };
-            }
+            name = "Lancer[Valkyrie]";
+            atkperlvl = 3;
+            desc = "The Valkyrie stirkes with fiery fury, rendering targets incapable of healing.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
         }
     }
     public class Brawler : PlayerClass
@@ -249,32 +269,32 @@ namespace Realm2
             preferredType = WeaponType.Glove;
             types = new List<WeaponType>() { WeaponType.Glove };
             desc = "A Brawler relies on his speed and the power of his fists to battle.\r\nPreferred weapon type: " + preferredType;
-            descdendants = new Tuple<PlayerClass, PlayerClass>(new Monk(), new Boxer());
             abilities = new Dictionary<Ability, int>() { };
         }
-        public class Monk : Brawler
+    }
+    public class Monk : Brawler
+    {
+        public Monk()
         {
-            public Monk()
-            {
-                name = "Brawler[Monk]";
-                atkperlvl = 4;
-                defperlvl = 4;
-                spdperlvl = 4;
-                types = new List<WeaponType>();
-                desc = "A Monk uses on his bare fists to fight, relying in his incredible speed, defense, and power to defeat foes. A Monk cannot equip Primary or Secondary items.";
-                abilities = new Dictionary<Ability, int>() { };
-            }
+            name = "Brawler[Monk]";
+            atkperlvl = 4;
+            defperlvl = 4;
+            spdperlvl = 4;
+            types = new List<WeaponType>();
+            preferredType = WeaponType.None;
+            desc = "A Monk uses on his bare fists to fight, relying in his incredible speed, defense, and power to defeat foes. A Monk cannot equip Primary or Secondary items.";
+            abilities = new Dictionary<Ability, int>() { };
         }
-        public class Boxer : Brawler
+    }
+    public class Boxer : Brawler
+    {
+        public Boxer()
         {
-            public Boxer()
-            {
-                name = "Brawler[Boxer]";
-                atkperlvl = 2;
-                spdperlvl = 2;
-                desc = "A Boxer uses the speed of his powerful punches to defeat his foes.\r\nPreferred weapon type: " + preferredType;
-                abilities = new Dictionary<Ability, int>() { };
-            }
+            name = "Brawler[Boxer]";
+            atkperlvl = 2;
+            spdperlvl = 2;
+            desc = "A Boxer uses the speed of his powerful punches to defeat his foes.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
         }
     }
     public class Mage : PlayerClass
@@ -287,31 +307,30 @@ namespace Realm2
             preferredType = WeaponType.Staff;
             types = new List<WeaponType>() { WeaponType.Staff, WeaponType.Book, WeaponType.Dagger };
             desc = "Mages use powerful spells to destory their enemies.\r\nPreferred weapon type: " + preferredType;
-            descdendants = new Tuple<PlayerClass, PlayerClass>(new ArcaneMage(), new ElementalMage());
             abilities = new Dictionary<Ability, int>() { };
         }
-        public class ArcaneMage : Mage
+    }
+    public class ArcaneMage : Mage
+    {
+        public ArcaneMage()
         {
-            public ArcaneMage()
-            {
-                name = "Mage[Arcane]";
-                intperlvl = 3;
-                atkperlvl = 1;
-                preferredType = WeaponType.Book;
-                desc = "Arcane Mages draw power from runes and curses, using knowledge from ancient spellweavers.\r\nPreferred weapon type: " + preferredType;
-                abilities = new Dictionary<Ability, int>() { };
-            }
+            name = "Mage[Arcane]";
+            intperlvl = 3;
+            atkperlvl = 1;
+            preferredType = WeaponType.Book;
+            desc = "Arcane Mages draw power from runes and curses, using knowledge from ancient spellweavers.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
         }
-        public class ElementalMage : Mage
+    }
+    public class ElementalMage : Mage
+    {
+        public ElementalMage()
         {
-            public ElementalMage()
-            {
-                name = "Mage[Elemental]";
-                intperlvl = 3;
-                spdperlvl = 1;
-                desc = "Elemental Mages use power from nature and the elements to smite their foes.\r\nPreferred weapon type: " + preferredType;
-                abilities = new Dictionary<Ability, int>() { };
-            }
+            name = "Mage[Elemental]";
+            intperlvl = 3;
+            spdperlvl = 1;
+            desc = "Elemental Mages use power from nature and the elements to smite their foes.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
         }
     }
     public class Ranger : PlayerClass
@@ -324,31 +343,30 @@ namespace Realm2
             preferredType = WeaponType.Bow;
             types = new List<WeaponType>() { WeaponType.Bow, WeaponType.Gun, WeaponType.Dagger };
             desc = "Rangers like to deal damage from afar.\r\nPreferred weapon type: " + preferredType;
-            descdendants = new Tuple<PlayerClass,PlayerClass>(new Archer(), new Gunslinger());
             abilities = new Dictionary<Ability, int>() { };
         }
-        public class Archer : Ranger
+    }
+    public class Archer : Ranger
+    {
+        public Archer()
         {
-            public Archer()
-            {
-                name = "Ranger[Archer]";
-                spdperlvl = 3;
-                atkperlvl = 2;
-                preferredType = WeaponType.Bow;
-                desc = "Archers use bow and arrow to take down enemies from a long range, while also specialize in dealing critical damage.\r\nPreferred weapon type: " + preferredType;
-                abilities = new Dictionary<Ability, int>() { };
-            }
+            name = "Ranger[Archer]";
+            spdperlvl = 3;
+            atkperlvl = 2;
+            preferredType = WeaponType.Bow;
+            desc = "Archers use bow and arrow to take down enemies from a long range, while also specialize in dealing critical damage.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
         }
-        public class Gunslinger : Ranger
+    }
+    public class Gunslinger : Ranger
+    {
+        public Gunslinger()
         {
-            public Gunslinger()
-            {
-                name = "Ranger[Gunslinger]";
-                atkperlvl = 3;
-                preferredType = WeaponType.Gun;
-                desc = "Gunslingers specialize in the exlusive use of firearms, however they make up for it with the ability to dual-wield.\r\nPreferred weapon type: " + preferredType;
-                abilities = new Dictionary<Ability, int>() { };
-            }
+            name = "Ranger[Gunslinger]";
+            atkperlvl = 3;
+            preferredType = WeaponType.Gun;
+            desc = "Gunslingers specialize in the exlusive use of firearms, however they make up for it with the ability to dual-wield.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
         }
     }
     public class Rogue : PlayerClass
@@ -362,30 +380,154 @@ namespace Realm2
             desc = "Rogues are quick swordsman who like to jump in and out of combat.\r\nPreferred weapon type: " + preferredType;
             types = new List<WeaponType>() { WeaponType.Shortsword, WeaponType.Dagger };
             abilities = new Dictionary<Ability, int>() { };
-            descdendants = new Tuple<PlayerClass, PlayerClass>(new Thief(), new Scout());
         }
-        public class Thief : Rogue
+    }
+    public class Thief : Rogue
+    {
+        public Thief()
         {
-            public Thief()
-            {
-                name = "Rogue[Thief]";
-                spdperlvl = 4;
-                preferredType = WeaponType.Dagger;
-                types = new List<WeaponType>() { WeaponType.Dagger };
-                desc = "Thieves rely solely on speed to strike quickly or escape.\r\nPreferred weapon type: " + preferredType;
-                abilities = new Dictionary<Ability, int>() { };
-            }
+            name = "Rogue[Thief]";
+            spdperlvl = 4;
+            preferredType = WeaponType.Dagger;
+            types = new List<WeaponType>() { WeaponType.Dagger };
+            desc = "Thieves rely solely on speed to strike quickly or escape.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
         }
-        public class Scout : Rogue
+    }
+    public class Scout : Rogue
+    {
+        public Scout()
         {
-            public Scout()
-            {
-                name = "Rogue[Scout]";
-                spdperlvl = 2;
-                atkperlvl = 2;
-                desc = "Scouts rely on mobility and rapid damge to execute foes.\r\nPreferred weapon type: " + preferredType;
-                abilities = new Dictionary<Ability, int>() { };
-            }
+            name = "Rogue[Scout]";
+            spdperlvl = 2;
+            atkperlvl = 2;
+            desc = "Scouts rely on mobility and rapid damge to execute foes.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
+        }
+    }
+    public class BladeDancer : PlayerClass
+    {
+        public BladeDancer()
+        {
+            name = "Blade Dancer";
+            atkperlvl = 2;
+            spdperlvl = 1;
+            preferredType = WeaponType.Longsword;
+            types = new List<WeaponType>() { WeaponType.Longsword, WeaponType.Shortsword, WeaponType.Dagger };
+            desc = "Blade Dancers combine agility with the strength of their magically augmented strikes to eliminate foes.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
+        }
+    }
+    public class Hexblade : BladeDancer
+    {
+        public Hexblade()
+        {
+            name = "Blade Dancer[Hexblade]";
+            intperlvl = 2;
+            preferredType = WeaponType.Shortsword;
+            desc = "Hexblades charge the weapon with magical power and use basic arcane magic.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
+        }
+    }
+    public class Duelist : BladeDancer
+    {
+        public Duelist()
+        {
+            name = "Blade Dancer[Duelist]";
+            atkperlvl = 3;
+            spdperlvl = 2;
+            preferredType = WeaponType.Longsword;
+            desc = "Duelists thrive in battle. The longer the fight goes on, thr stronger the duelist becomes.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
+        }
+    }
+    public class Assassin : PlayerClass
+    {
+        public Assassin()
+        {
+            name = "Assassin";
+            atkperlvl = 3;
+            preferredType = WeaponType.Dagger;
+            types = new List<WeaponType>() { WeaponType.Dagger, WeaponType.Glove, WeaponType.Shortsword };
+            desc = "Assassins use incredible bursts of damage to dispatch their targets quickly.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
+        }
+    }
+    public class Ninja : Assassin
+    {
+        public Ninja()
+        {
+            name = "Assassin[Ninja]";
+            spdperlvl = 2;
+            preferredType = WeaponType.Shortsword;
+            desc = "Ninjas hail from the mystical orient, using deception for most purposes, however in a pinch they can be very effective at fighting as well.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
+        }
+    }
+    public class RiftWalker : Assassin
+    {
+        public RiftWalker()
+        {
+            name = "Assassin[Ninja]";
+            defperlvl = 1;
+            atkperlvl = 1;
+            desc = "An assassin who has developed the incredible ability to traverse the void, allowing for breif teleportation and more durability.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
+        }
+    }
+    public class DreadKnight : PlayerClass
+    {
+        public DreadKnight()
+        {
+            name = "Dread Knight";
+            atkperlvl = 1;
+            defperlvl = 1;
+            intperlvl = 1;
+            preferredType = WeaponType.Mace;
+            types = new List<WeaponType>() { WeaponType.Longsword, WeaponType.Shortsword, WeaponType.Mace };
+            desc = "Dread Knights draw ther power from the pain and suffering of others, growing stronger as their enemies get weaker.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
+        }
+    }
+    public class Necromancer : DreadKnight
+    {
+        public Necromancer()
+        {
+            name = "Dread Knight[Necromancer]";
+            atkperlvl = 0;
+            intperlvl = 3;
+            preferredType = WeaponType.Book;
+            types = new List<WeaponType>() { WeaponType.Book, WeaponType.Staff };
+            desc = "Necromancers cast spells involving death, and use powerful reanimation spells to bring back past foes to fight for them.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>() { };
+        }
+    }
+    public class Duskblade : DreadKnight
+    {
+        public Duskblade()
+        {
+            name = "Dreadknight[Duskblade]";
+            atkperlvl = 2;
+            defperlvl = 2;
+            preferredType = WeaponType.Longsword;
+            desc = "Duskblades grow stronger each time they kill an enemy, relying on the shadows to make kills.\r\nPreferred weapon type: " + preferredType;
+            abilities = new Dictionary<Ability, int>();
+        }
+    }
+    public class Jester : PlayerClass
+    {
+        public Jester()
+        {
+            name = "Jester";
+            atkperlvl = 1;
+            defperlvl = 1;
+            spdperlvl = 1;
+            intperlvl = 1;
+            hpperlvl = 1;
+            preferredType = WeaponType.None;
+            types = new List<WeaponType>() { WeaponType.None, WeaponType.Book, WeaponType.Bow, WeaponType.Dagger, WeaponType.Glove, WeaponType.Gun, WeaponType.Lance, WeaponType.Longsword, WeaponType.Mace, WeaponType.Shortsword, WeaponType.Staff };
+            desc = "Jesters are perhaps the most enigmatic of classes. None but Jesters really understand the implications of being one.";
+            abilities = new Dictionary<Ability, int>() { };
         }
     }
     #endregion

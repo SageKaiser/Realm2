@@ -12,6 +12,7 @@ namespace Realm2
     }
     public enum WeaponType
     {
+        None,
         Longsword,
         Shortsword,
         Lance,
@@ -30,5 +31,9 @@ namespace Realm2
         public string name, desc;
         public int atkbuff, defbuff, spdbuff, intlbuff, tier, value;
         public float multiplier;
+        public Item()
+        {
+            wt = WeaponType.None;
+        }
     }
 }

@@ -35,6 +35,7 @@ namespace Realm2
         {
             if (e.Key == Key.Enter)
             {
+                this.inputText.Text = String.Empty;
                 Program.main.HandleInput(this.inputText.Text);
             }
         }

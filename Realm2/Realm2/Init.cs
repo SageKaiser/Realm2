@@ -23,7 +23,7 @@ namespace Realm2
             }
             window.mainText.AppendText("Hello there. It looks like you're new to Realm 2.", "Black");
             window.mainText.AppendText("What is your name?", "CadetBlue");
-            Program.main.gm = Main.GameState.AskingName;
+            Program.main.gm = Main.GameState.GettingPlayerInfo;
         }
         private string GetTitle()
         {

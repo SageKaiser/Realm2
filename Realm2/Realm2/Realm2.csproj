@@ -56,12 +56,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BackpackWindow.xaml.cs">
+      <DependentUpon>BackpackWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CombatWindow.xaml.cs">
       <DependentUpon>CombatWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dice.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="StatusEffect.cs" />
+    <Page Include="BackpackWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ClassRaceChoiceWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

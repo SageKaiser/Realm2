@@ -13,9 +13,7 @@ namespace Realm2
             Main,
             Battle,
             AwaitingInput,
-            AskingName,
-            AskingClass,
-            AskingRace,
+            GettingPlayerInfo,
             AskingPassword,
             AskingFinalPassword,
             Dead,
@@ -39,11 +37,13 @@ namespace Realm2
         {
             switch(gm)
             {
-                case GameState.AskingName:
+                case GameState.GettingPlayerInfo:
                     player.name = mw.inputText.Text;
                     mw.mainText.AppendText("Welcome, ", "Black", true);
                     mw.mainText.AppendText(player.name, "CadetBlue", true);
                     mw.mainText.AppendText(" to Realm 2.", "Black");
+                    ClassRaceChoiceWindow crcw = new ClassRaceChoiceWindow();
+                    crcw.Show();
                     break;
             }
         }
