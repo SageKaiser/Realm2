@@ -12,7 +12,7 @@ namespace Realm2
     {
         public static Main main;
 
-        public static bool noUpdate = false;
+        public static bool noUpdate = false, bypassConfirmation = false;
 
         [DllImport("wininet.dll")]
         public extern static bool InternetGetConnectedState(out int Description, int ReservedValue);
@@ -22,6 +22,8 @@ namespace Realm2
         {
             if (args.Contains("-noupdate"))
                 noUpdate = true;
+            if (args.Contains("-bypassconfirm"))
+                bypassConfirmation = true;
             Realm2.App app = new Realm2.App();
             app.InitializeComponent();
             app.Run();

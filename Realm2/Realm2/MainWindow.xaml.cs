@@ -49,8 +49,18 @@ namespace Realm2
 
         private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            foreach (Window w in this.OwnedWindows)
-                w.Close();
+            if (!Program.bypassConfirmation)
+            {
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to exit? The game will not be saved.", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    Application.Current.Shutdown();
+                    foreach (Window w in this.OwnedWindows)
+                        w.Close();
+                }
+                else
+                    e.Cancel = true;
+            }
         }
     }
 }
