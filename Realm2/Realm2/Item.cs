@@ -13,6 +13,7 @@ namespace Realm2
     public enum WeaponType
     {
         None,
+        Stick,
         Longsword,
         Shortsword,
         Lance,
@@ -26,14 +27,30 @@ namespace Realm2
     }
     public class Item
     {
+        public string desc, name;
         public Slot slot;
         public WeaponType wt;
-        public string name, desc;
         public int atkbuff, defbuff, spdbuff, intlbuff, tier, value;
-        public float multiplier;
         public Item()
         {
             wt = WeaponType.None;
+        }
+        public override string ToString()
+        {
+            return name;
+        }
+    }
+    public class Stick : Item
+    {
+        public Stick()
+        {
+            slot = Slot.Primary;
+            wt = WeaponType.Stick;
+            name = "Stick";
+            desc = "An unimpressive wooden stick. It isn't even sharp.";
+            tier = 1;
+            value = 5;
+            atkbuff = 1;
         }
     }
 }

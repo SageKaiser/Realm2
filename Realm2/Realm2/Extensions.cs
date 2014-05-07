@@ -28,7 +28,7 @@ namespace Realm2
             TextRange tr = new TextRange(box.Document.ContentEnd, box.Document.ContentEnd);
             tr.Text = text + "\r\n";
             try { tr.ApplyPropertyValue(TextElement.ForegroundProperty, bc.ConvertFromString(color)); }
-            catch (FormatException) { }
+            catch (FormatException) { tr.ApplyPropertyValue(TextElement.ForegroundProperty, bc.ConvertFromString("Black")); }
         }
         public static void AppendText(this RichTextBox box, string text, string color, bool sameLine)
         {

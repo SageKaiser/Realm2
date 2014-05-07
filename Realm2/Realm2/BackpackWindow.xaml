@@ -1,8 +1,11 @@
 ﻿<Window x:Class="Realm2.BackpackWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="BackpackWindow" Height="300" Width="300">
+        Title="Backpack" Height="600" Width="300" WindowStartupLocation="Manual" Left="1260" Top="132" Closing="Window_Closing" WindowStyle="ToolWindow">
     <Grid>
-        
+        <RichTextBox x:Name="itemDesc" HorizontalAlignment="Left" Height="272" Margin="10,287,0,0" VerticalAlignment="Top" Width="272" IsReadOnly="True">
+            <FlowDocument/>
+        </RichTextBox>
+        <ListBox x:Name="itemBox" ItemsSource="{Binding}" SelectedIndex="0" HorizontalAlignment="Left" Height="272" Margin="10,10,0,0" VerticalAlignment="Top" Width="272" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionChanged="itemBox_SelectionChanged"/>
     </Grid>
 </Window>

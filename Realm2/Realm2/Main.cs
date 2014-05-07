@@ -26,10 +26,13 @@ namespace Realm2
         public Random rand;
         public Enemy enemy;
         MainWindow mw;
-        
-        public Main(MainWindow mainWindow)
+        BackpackWindow bw;
+        ClassRaceChoiceWindow cw;
+        public Main(MainWindow mainWindow, BackpackWindow bpwindow, ClassRaceChoiceWindow crcwindow)
         {
             mw = mainWindow;
+            bw = bpwindow;
+            cw = crcwindow;
             player = new Player();
             rand = new Random();
         }
@@ -42,10 +45,13 @@ namespace Realm2
                     mw.mainText.AppendText("Welcome, ", "Black", true);
                     mw.mainText.AppendText(player.name, "CadetBlue", true);
                     mw.mainText.AppendText(" to Realm 2.", "Black");
-                    ClassRaceChoiceWindow crcw = new ClassRaceChoiceWindow();
-                    crcw.Show();
+                    cw.Show();
                     break;
             }
+        }
+        public void addBackpackItem(Item i)
+        {
+
         }
     }
 }

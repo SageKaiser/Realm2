@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +45,7 @@ namespace Realm2
         }
         public string name;
         public Item primary = new Item(), secondary = new Item(), armor = new Item(), accessory = new Item();
-        public List<Item> backpack;
+        public ObservableCollection<Item> backpack;
         public PlayerClass pClass;
         public Race pRace;
         public bool canAttack, canBeHit = true, canHeal = true;
@@ -53,6 +55,9 @@ namespace Realm2
         {
             level = 1;
             xp_next = level >= 10 ? 62 + (level - 10) * 7 : (level >= 5 ? 17 + (level - 5) * 3 : 17);
+            backpack = new ObservableCollection<Item>();
+            combatAbilities = new List<Ability>();
+            effects = new List<StatusEffect>();
         }
     }
     public class PlayerClass
@@ -63,9 +68,9 @@ namespace Realm2
         public List<WeaponType> types = new List<WeaponType>();
         public Dictionary<Ability, int> abilities;
 
-        public bool canEquipItem(Item i)
+        public bool canEquipItem(Item w)
         {
-            if (types.Contains(i.wt))
+            if (types.Contains(w.wt) || w.wt == WeaponType.Stick)
                 return true;
             else
                 return false;

@@ -8,9 +8,10 @@ namespace Realm2
 {
     public class Init
     {
-        public void Initialize(MainWindow window)
+        public void Initialize(MainWindow window, BackpackWindow bpwindow, ClassRaceChoiceWindow crcw)
         {
-            Program.main = new Main(window);
+            Program.main = new Main(window, bpwindow, crcw);
+            bpwindow.itemBox.ItemsSource = Program.main.player.backpack;
             window.Title = "Realm 2: " + GetTitle();
             if (!Program.noUpdate)
             {
@@ -23,6 +24,7 @@ namespace Realm2
             }
             window.mainText.AppendText("Hello there. It looks like you're new to Realm 2.", "Black");
             window.mainText.AppendText("What is your name?", "CadetBlue");
+            Program.main.player.backpack.Add(new Stick());
             Program.main.gm = Main.GameState.GettingPlayerInfo;
         }
         private string GetTitle()

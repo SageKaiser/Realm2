@@ -47,7 +47,10 @@ namespace Realm2
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (raceBox.SelectedItem == null || classBox.SelectedItem == null)
+            {
                 e.Cancel = true;
+                this.WindowState = System.Windows.WindowState.Minimized;
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
