@@ -109,20 +109,31 @@ namespace Realm2
             else
                 return false;
         }
+
+        public override string ToString()
+        {
+            return name;
+        }
     }
     public class Race
     {
         public int hp_init, atk_init, def_init, spd_init, int_init;
 
-        public string desc, racialTrait;
+        public string name, desc, racialTrait;
 
         Ability racialAbility;
+
+        public override string ToString()
+        {
+            return name;
+        }
     }
     #region Races
     public class Human : Race
     {
         public Human()
         {
+            name = "Human";
             hp_init = 2;
             atk_init = 2;
             def_init = 2;
@@ -136,6 +147,7 @@ namespace Realm2
     {
         public Elf()
         {
+            name = "Elf";
             spd_init = 5;
             int_init = 5;
             desc = "Elf make up for their lack of strength in wisdom. Elves are quick learners and are usually adept at scholarly endeavours.";
@@ -146,6 +158,7 @@ namespace Realm2
     {
         public Dwarf()
         {
+            name = "Dwarf";
             hp_init = 5;
             def_init = 5;
             desc = "Dwarves are a people much smaller than humans. Known for their reliability and incredible metalworking, they dwell in mountains where resources and gold are abundant.";
@@ -156,6 +169,7 @@ namespace Realm2
     {
         public Orc()
         {
+            name = "Orc";
             hp_init = 6;
             atk_init = 4;
             desc = "Orcs are a hardy race of creatures capable of incredible feats of strength.";
@@ -166,6 +180,7 @@ namespace Realm2
     {
         public Lycanthrope()
         {
+            name = "Lycanthrope";
             atk_init = 5;
             spd_init = 5;
             desc = "Lycanthropes are berserkers that have always been associated with the phases of the moon. They are said to obtain wolf-like traits when the moon is at its fullest.";
@@ -176,9 +191,10 @@ namespace Realm2
     {
        public Halfdragon()
         {
+            name = "Half-Dragon";
            def_init = 7;
            atk_init = 3;
-           desc = "Halfdragons are a rare hybrid between human and dragon. Half dragons have properties from both species.";
+           desc = "Half-dragons are a rare hybrid between human and dragon. Half dragons have properties from both species.";
            racialTrait = "Burning Scales: Physical attacks ignite enemies.";
         }
     }
@@ -186,6 +202,7 @@ namespace Realm2
     {
         public Revenant()
         {
+            name = "Revenant";
             hp_init = -2;
             spd_init = 4;
             desc = "Born from an unholy pact between a human and a demon, revenants are aberrations that should not exist in this world.";
@@ -196,6 +213,7 @@ namespace Realm2
     {
         public Djinn()
         {
+            name = "Djinn";
             int_init = 10;
             desc = "Djinn are creatures born of the desire for power and arcane magic. The first Djinn are milennia old, these beings were made from the corruption of magic on the human soul.";
             racialTrait = "Power Tap: Magic attacks lower enemy defense.";
@@ -205,6 +223,7 @@ namespace Realm2
     {
         public Vampire()
         {
+            name = "Vampire";
             hp_init = 4;
             atk_init = 3;
             spd_init = 3;
@@ -216,6 +235,7 @@ namespace Realm2
     {
         public Demon()
         {
+            name = "Demon";
             hp_init = -1;
             def_init = -1;
             atk_init = 8;

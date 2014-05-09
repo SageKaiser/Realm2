@@ -11,10 +11,6 @@ namespace Realm2
         public enum GameState
         {
             Main,
-            JustMoved,
-            PreBattle,
-            Battle,
-            AwaitingInput,
             GettingPlayerInfo,
             Dead,
             End
@@ -25,6 +21,8 @@ namespace Realm2
         public Map map;
         public List<Book> mainBookList;
         public List<Item> mainItemList;
+        public List<PlayerClass> mainClassList;
+        public List<Race> mainRaceList;
         public MainWindow mainWindow;
 
         private Enemy currentEnemy;
@@ -38,6 +36,8 @@ namespace Realm2
             player = new Player();
             rand = new Random();
             map = new Map(7);
+            mainClassList = new List<PlayerClass>() { new Knight(), new Lancer(), new Brawler(), new Mage(), new Ranger(), new Rogue(), new BladeDancer(), new Assassin(), new DreadKnight(), new Jester() };
+            mainRaceList = new List<Race>() { new Human(), new Elf(), new Dwarf(), new Orc(), new Lycanthrope(), new Halfdragon(), new Revenant(), new Djinn(), new Vampire(), new Demon() };
         }
         public void HandleInput(string input)
         {

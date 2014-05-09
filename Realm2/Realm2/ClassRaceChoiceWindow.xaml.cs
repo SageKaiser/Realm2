@@ -26,22 +26,14 @@ namespace Realm2
 
         private void raceBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int i = raceBox.SelectedIndex;
-            ComboBoxItem cbi = (ComboBoxItem)(raceBox.ItemContainerGenerator.ContainerFromIndex(i));
-            Type type = Type.GetType("Realm2." + cbi.Content.ToString().Replace(" ", String.Empty));
-            Race race = (Race)Activator.CreateInstance(type);
-            raceDesc.Text = race.desc;
-            Program.main.player.pRace = race;
+            raceDesc.Text = ((Race)raceBox.SelectedItem).desc;
+            Program.main.player.pRace = (Race)raceBox.SelectedItem;
         }
 
         private void classBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int i = classBox.SelectedIndex;
-            ComboBoxItem cbi = (ComboBoxItem)(classBox.ItemContainerGenerator.ContainerFromIndex(i));
-            Type type = Type.GetType("Realm2." + cbi.Content.ToString().Replace(" ", String.Empty));
-            PlayerClass pc = (PlayerClass)Activator.CreateInstance(type);
-            classDesc.Text = pc.desc;
-            Program.main.player.pClass = pc;
+            classDesc.Text = ((PlayerClass)classBox.SelectedItem).desc;
+            Program.main.player.pClass = (PlayerClass)classBox.SelectedItem;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -56,7 +48,17 @@ namespace Realm2
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (raceBox.SelectedItem != null && classBox.SelectedItem != null)
+            {
+                Program.main.write("You have chosen to be a ", "Black");
+                Program.main.write(raceBox.SelectedItem + " " + classBox.SelectedItem, "CadetBlue", true);
                 this.Close();
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            raceBox.ItemsSource = Program.main.mainRaceList;
+            classBox.ItemsSource = Program.main.mainClassList;
         }
     }
 }

@@ -93,10 +93,7 @@ namespace Realm2
         public bool checkCombat()
         {
             Dice d = new Dice();
-            if (d.roll(1, 5) == 1)
-                return true;
-            else
-                return false;
+            return d.roll(1, 5) == 1;
         }
         public virtual bool ExecuteCommand(string cmd, string obj)
         {
@@ -123,16 +120,12 @@ namespace Realm2
             if (commands.Contains(command) && target != null)
             {
                 if (command is interact)
-                {
-                    interact i = (interact)command;
-                    i.Execute(target);
-                }
+                    ((interact)command).Execute(target);
                 else if (command is go)
                 {
                     if (obj != "north" && obj != "south" && obj != "east" && obj != "west")
                         return false;
-                    go g = (go)command;
-                    g.Execute(Enum.Parse(typeof(Direction), obj));
+                    ((go)command).Execute(Enum.Parse(typeof(Direction), obj));
                 }
                 return true;
             }
