@@ -49,8 +49,8 @@ namespace Realm2
             name = "Stick";
             desc = "An unimpressive wooden stick. It isn't even sharp.";
             tier = 1;
-            value = 5;
             atkbuff = 1;
+            value = 5;
         }
     }
 }

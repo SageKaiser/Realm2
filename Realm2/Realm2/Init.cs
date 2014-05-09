@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,9 +10,9 @@ namespace Realm2
 {
     public class Init
     {
-        public void Initialize(MainWindow window, BackpackWindow bpwindow, ClassRaceChoiceWindow crcw)
+        public void Initialize(MainWindow window, BackpackWindow bpwindow, ClassRaceChoiceWindow crcwindow)
         {
-            Program.main = new Main(window, bpwindow, crcw);
+            Program.main = new Main(window, bpwindow, crcwindow);
             bpwindow.itemBox.ItemsSource = Program.main.player.backpack;
             window.Title = "Realm 2: " + GetTitle();
             if (!Program.noUpdate)
@@ -22,6 +24,9 @@ namespace Realm2
                     dnvw.Show();
                 }
             }
+            string temppath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe";
+            if (File.Exists(temppath))
+                File.Delete(temppath);
             window.mainText.AppendText("Hello there. It looks like you're new to Realm 2.", "Black");
             window.mainText.AppendText("What is your name?", "CadetBlue");
             Program.main.player.backpack.Add(new Stick());

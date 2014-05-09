@@ -63,13 +63,44 @@
     <Compile Include="BackpackWindow.xaml.cs">
       <DependentUpon>BackpackWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="InnkeeperWindow.xaml.cs">
+      <DependentUpon>InnkeeperWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Library.cs" />
+    <Compile Include="LibraryWindow.xaml.cs">
+      <DependentUpon>LibraryWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainMenuWindow.xaml.cs">
+      <DependentUpon>MainMenuWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MerchantWindow.xaml.cs">
+      <DependentUpon>MerchantWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CombatWindow.xaml.cs">
       <DependentUpon>CombatWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dice.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="Map.cs" />
+    <Compile Include="NPC.cs" />
     <Compile Include="StatusEffect.cs" />
     <Page Include="BackpackWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InnkeeperWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LibraryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainMenuWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MerchantWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

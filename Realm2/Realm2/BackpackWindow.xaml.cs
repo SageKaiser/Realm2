@@ -54,8 +54,11 @@ namespace Realm2
             }
             itemDesc.AppendText(i.name + "\r\n", itemcolor);
             itemDesc.AppendText(i.desc, "Black");
-            itemDesc.AppendText("Attack buff: " + i.atkbuff, "Red");
-
+            itemDesc.AppendText("Attack buff: " + i.atkbuff, "SeaGreen");
+            itemDesc.AppendText("Defense buff: " + i.defbuff, "SeaGreen");
+            itemDesc.AppendText("Speed buff: " + i.spdbuff, "SeaGreen");
+            itemDesc.AppendText("Intelligence buff: " + i.intlbuff, "SeaGreen");
+            itemDesc.AppendText("Value: " + i.value, "Gold");
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

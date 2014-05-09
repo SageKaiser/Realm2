@@ -11,6 +11,8 @@ namespace Realm2
     public class Player
     {
         public int mana, maxmana, maxhp, spd, basespeed, atk, baseattack, intl, baseintl, def, basedef, g, level, xp_next, reputation;
+        public Dictionary<string, Func<bool>> commands;
+        public Position position;
         public int hp
         {
             get { return hp; }
@@ -44,7 +46,7 @@ namespace Realm2
             }
         }
         public string name;
-        public Item primary = new Item(), secondary = new Item(), armor = new Item(), accessory = new Item();
+        public Lazy<Item> primary, secondary, armor, accessory;
         public ObservableCollection<Item> backpack;
         public PlayerClass pClass;
         public Race pRace;
@@ -58,6 +60,38 @@ namespace Realm2
             backpack = new ObservableCollection<Item>();
             combatAbilities = new List<Ability>();
             effects = new List<StatusEffect>();
+        }
+        public void LearnAbility(Ability a)
+        {
+            if (!combatAbilities.Contains(a))
+            {
+                combatAbilities.Add(a);
+                Program.main.write("You learned " + a.name + "!", "Aqua");
+            }
+            else
+                Program.main.write("You have already learned that ability.", "Crimson");
+        }
+        public bool Purchase(int cost)
+        {
+            if (g >= cost)
+            {
+                g -= cost;
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public bool Purchase(int cost, Item i)
+        {
+            if (g >= cost)
+            {
+                g -= cost;
+                backpack.Add(i);
+                return true;
+            }
+            else
+                return false;
         }
     }
     public class PlayerClass

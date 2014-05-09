@@ -11,47 +11,54 @@ namespace Realm2
         public enum GameState
         {
             Main,
+            JustMoved,
+            PreBattle,
             Battle,
             AwaitingInput,
             GettingPlayerInfo,
-            AskingPassword,
-            AskingFinalPassword,
             Dead,
-            PreBattle,
-            PreFinalBattle,
             End
         }
+        public Random rand;
         public GameState gm;
         public Player player;
-        public Random rand;
-        public Enemy enemy;
-        MainWindow mw;
-        BackpackWindow bw;
-        ClassRaceChoiceWindow cw;
-        public Main(MainWindow mainWindow, BackpackWindow bpwindow, ClassRaceChoiceWindow crcwindow)
+        public Map map;
+        public List<Book> mainBookList;
+        public List<Item> mainItemList;
+        public MainWindow mainWindow;
+
+        private Enemy currentEnemy;
+        private BackpackWindow bw;
+        private ClassRaceChoiceWindow cw;
+        public Main(MainWindow _mainWindow, BackpackWindow bpwindow, ClassRaceChoiceWindow crcwindow)
         {
-            mw = mainWindow;
+            mainWindow = _mainWindow;
             bw = bpwindow;
             cw = crcwindow;
             player = new Player();
             rand = new Random();
+            map = new Map(7);
         }
         public void HandleInput(string input)
         {
             switch(gm)
             {
                 case GameState.GettingPlayerInfo:
-                    player.name = mw.inputText.Text;
-                    mw.mainText.AppendText("Welcome, ", "Black", true);
-                    mw.mainText.AppendText(player.name, "CadetBlue", true);
-                    mw.mainText.AppendText(" to Realm 2.", "Black");
+                    player.name = mainWindow.inputText.Text;
+                    write("Welcome, ", "Black", true);
+                    write(player.name, "CadetBlue", true);
+                    write(" to Realm 2.", "Black");
                     cw.Show();
                     break;
             }
         }
-        public void addBackpackItem(Item i)
+        public void write(string input, string color)
         {
-
+            mainWindow.mainText.AppendText(input, color);
+        }
+        public void write(string input, string color, bool sameLine)
+        {
+            mainWindow.mainText.AppendText(input, color, sameLine);
         }
     }
 }
