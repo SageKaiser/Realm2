@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Realm2
 {
@@ -13,26 +14,36 @@ namespace Realm2
         public int mana, maxmana, maxhp, spd, basespeed, atk, baseattack, intl, baseintl, def, basedef, g, level, xp_next, reputation;
         public Dictionary<string, Func<bool>> commands;
         public Position position;
+        private int HP, XP;
         public int hp
         {
-            get { return hp; }
+            get { return HP; }
             set
             {
-                if (hp >= 0)
-                    Program.main.gm = Main.GameState.Dead;
-                if (hp > maxhp)
-                    hp = maxhp;
+                HP = value;
+                if (HP <= 0)
+                {
+                    Program.main.gm = GameState.Dead;
+                    Program.main.write("You have died. Press enter to exit.", "Red");
+                    foreach (Window window in Application.Current.Windows)
+                    {
+                        if (!(window is MainWindow))
+                            window.Close();
+                    }
+                }
+                if (HP > maxhp)
+                    HP = maxhp;
             }
         }
         public int xp
         {
-            get { return xp_next; }
+            get { return XP; }
             set
             {
-                if (xp <= xp_next)
+                if (XP <= xp_next)
                 {
-                    int xp_overlap = xp > xp_next ? xp - xp_next : 0;
-                    xp = xp_overlap;
+                    int xp_overlap = XP > xp_next ? XP - xp_next : 0;
+                    XP = xp_overlap;
                     level++;
                     xp_next = level >= 10 ? 62 + (level - 10) * 7 : (level >= 5 ? 17 + (level - 5) * 3 : 17);
                     maxmana += 3;
@@ -50,15 +61,17 @@ namespace Realm2
         public ObservableCollection<Item> backpack;
         public PlayerClass pClass;
         public Race pRace;
-        public bool canAttack, canBeHit = true, canHeal = true;
+        public bool canAttack = true, canBeHit = true, canHeal = true;
         public List<Ability> combatAbilities;
         public List<StatusEffect> effects;
         public Player()
         {
             level = 1;
             xp_next = level >= 10 ? 62 + (level - 10) * 7 : (level >= 5 ? 17 + (level - 5) * 3 : 17);
+            maxmana = 10;
+            mana = 10;
             backpack = new ObservableCollection<Item>();
-            combatAbilities = new List<Ability>();
+            combatAbilities = new List<Ability>() { new Attack() };
             effects = new List<StatusEffect>();
         }
         public void LearnAbility(Ability a)
@@ -69,7 +82,7 @@ namespace Realm2
                 Program.main.write("You learned " + a.name + "!", "Aqua");
             }
             else
-                Program.main.write("You have already learned that ability.", "Crimson");
+                Program.main.write("You have already learned that ability.", "Red");
         }
         public bool Purchase(int cost)
         {

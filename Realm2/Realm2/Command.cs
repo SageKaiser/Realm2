@@ -21,7 +21,7 @@ namespace Realm2
         {
             name = "interact";
         }
-        public bool Execute(NPC npc)
+        public bool Execute(INPC npc)
         {
             npc.Interact();
             return true;
@@ -64,24 +64,45 @@ namespace Realm2
                 return true;
         }
     }
-    public class Ability : Command
+    public enum type
     {
-        public enum type
-        {
-            Physical,
-            Magical
-        }
+        Physical,
+        Magical
+    }
+    public class Ability
+    {
         public type Type;
+        public string name;
         public int manacost;
-        public override bool Execute(object target)
+        public virtual bool Execute(object target)
         {
             return false;
+        }
+        public override string ToString()
+        {
+            return name;
+        }
+    }
+    public class Attack : Ability
+    {
+        public Attack()
+        {
+            name = "Basic Attack";
+            Type = type.Physical;
+            manacost = 0;
+        }
+        public override bool Execute(object target)
+        {
+            Dice d = new Dice();
+            ((Enemy)target).hp -= Math.Max((d.roll(1, Program.main.player.atk) + 4) - ((Enemy)target).def, 1);
+            return true;
         }
     }
     public class Cleanse : Ability
     {
         public Cleanse()
         {
+            name = "Cleanse";
             Type = type.Magical;
             manacost = 0;
         }

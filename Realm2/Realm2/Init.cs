@@ -27,10 +27,10 @@ namespace Realm2
             string temppath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe";
             if (File.Exists(temppath))
                 File.Delete(temppath);
-            window.mainText.AppendText("Hello there. It looks like you're new to Realm 2.", "Black");
-            window.mainText.AppendText("What is your name?", "CadetBlue");
+            Program.main.write("Hello there. It looks like you're new to Realm 2.", "Black", true);
+            Program.main.write("What is your name?", "SteelBlue");
             Program.main.player.backpack.Add(new Stick());
-            Program.main.gm = Main.GameState.GettingPlayerInfo;
+            Program.main.gm = GameState.GettingPlayerInfo;
         }
         private string GetTitle()
         {

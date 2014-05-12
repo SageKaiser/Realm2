@@ -28,12 +28,16 @@ namespace Realm2
         {
             raceDesc.Text = ((Race)raceBox.SelectedItem).desc;
             Program.main.player.pRace = (Race)raceBox.SelectedItem;
+            if (classBox.SelectedIndex != -1)
+                button.IsEnabled = true;
         }
 
         private void classBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             classDesc.Text = ((PlayerClass)classBox.SelectedItem).desc;
             Program.main.player.pClass = (PlayerClass)classBox.SelectedItem;
+            if (raceBox.SelectedIndex != -1)
+                button.IsEnabled = true;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -43,14 +47,16 @@ namespace Realm2
                 e.Cancel = true;
                 this.WindowState = System.Windows.WindowState.Minimized;
             }
+            else
+            {
+                onClose();
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (raceBox.SelectedItem != null && classBox.SelectedItem != null)
             {
-                Program.main.write("You have chosen to be a ", "Black");
-                Program.main.write(raceBox.SelectedItem + " " + classBox.SelectedItem, "CadetBlue", true);
                 this.Close();
             }
         }
@@ -59,6 +65,20 @@ namespace Realm2
         {
             raceBox.ItemsSource = Program.main.mainRaceList;
             classBox.ItemsSource = Program.main.mainClassList;
+        }
+        private void onClose()
+        {
+            Program.main.write("You have chosen to be a(n) ", "Black");
+            Program.main.write(raceBox.SelectedItem + " " + classBox.SelectedItem, "MediumOrchid", true);
+            Program.main.player.atk = 1 + Program.main.player.pRace.atk_init;
+            Program.main.player.def = 1 + Program.main.player.pRace.def_init;
+            Program.main.player.spd = 1 + Program.main.player.pRace.spd_init;
+            Program.main.player.intl = 1 + Program.main.player.pRace.int_init;
+            Program.main.player.maxhp = 10 + Program.main.player.pRace.hp_init;
+            Program.main.player.hp = Program.main.player.maxhp;
+            Program.main.writeStats();
+            Program.main.mainWindow.IsEnabled = true;
+            Program.main.gm = GameState.Main;
         }
     }
 }

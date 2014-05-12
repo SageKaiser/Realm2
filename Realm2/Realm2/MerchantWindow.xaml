@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="BuySellWindow" Height="480" Width="640" Loaded="Window_Loaded">
     <Grid>
-        <Label Content="Merchant" HorizontalAlignment="Left" Margin="238,10,0,0" VerticalAlignment="Top" FontSize="36"/>
+        <Label x:Name="merchantName" Content="Merchant - " HorizontalAlignment="Left" Margin="160,10,0,0" VerticalAlignment="Top" FontSize="36"/>
         <ListBox x:Name="forsaleBox" ItemsSource="{Binding}" HorizontalAlignment="Left" Height="282" Margin="10,109,0,0" VerticalAlignment="Top" Width="260"/>
         <ListBox x:Name="bpBox" ItemsSource="{Binding}" HorizontalAlignment="Left" Height="282" Margin="362,109,0,0" VerticalAlignment="Top" Width="260"/>
         <Label Content="For Sale" HorizontalAlignment="Left" Margin="93,73,0,0" VerticalAlignment="Top" FontSize="24"/>

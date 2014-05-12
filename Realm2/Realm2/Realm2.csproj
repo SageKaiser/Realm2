@@ -70,9 +70,6 @@
     <Compile Include="LibraryWindow.xaml.cs">
       <DependentUpon>LibraryWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainMenuWindow.xaml.cs">
-      <DependentUpon>MainMenuWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MerchantWindow.xaml.cs">
       <DependentUpon>MerchantWindow.xaml</DependentUpon>
     </Compile>
@@ -93,10 +90,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LibraryWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainMenuWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -62,5 +62,25 @@ namespace Realm2
                     e.Cancel = true;
             }
         }
+
+        private void mainText_GotFocus(object sender, RoutedEventArgs e)
+        {
+            inputText.Focus();
+        }
+
+        private void statText_GotFocus(object sender, RoutedEventArgs e)
+        {
+            inputText.Focus();
+        }
+
+        private void mainWindow_GotFocus(object sender, RoutedEventArgs e)
+        {
+            inputText.Focus();
+        }
+
+        private void mainWindow_Activated(object sender, EventArgs e)
+        {
+            inputText.Focus();
+        }
     }
 }

@@ -52,7 +52,7 @@ namespace Realm2
                     itemcolor = "Purple";
                     break;
             }
-            itemDesc.AppendText(i.name + "\r\n", itemcolor);
+            itemDesc.AppendText(i.name + "\r\n", itemcolor, true);
             itemDesc.AppendText(i.desc, "Black");
             itemDesc.AppendText("Attack buff: " + i.atkbuff, "SeaGreen");
             itemDesc.AppendText("Defense buff: " + i.defbuff, "SeaGreen");

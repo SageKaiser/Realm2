@@ -45,7 +45,7 @@ namespace Realm2
             power = Power;
             window = cw;
             if (isPlayer)
-                cw.combatText.AppendText(p.name + " has been set ablaze!", "Crimson");
+                cw.combatText.AppendText(p.name + " has been set ablaze!", "Red");
             else
                 cw.combatText.AppendText(e.name + " has been set ablaze!", "Aqua");
         }
@@ -56,7 +56,7 @@ namespace Realm2
             if (isPlayer)
             {
                 p.hp -= damage;
-                window.combatText.AppendText("You take " + damage + " fire damage", "Crimson");
+                window.combatText.AppendText("You take " + damage + " fire damage", "Red");
             }
             else
             {
@@ -72,7 +72,7 @@ namespace Realm2
             turns = Turns;
             window = cw;
             if (isPlayer)
-                cw.combatText.AppendText(p.name + " was stunned for " + turns + " turns!", "Crimson");
+                cw.combatText.AppendText(p.name + " was stunned for " + turns + " turns!", "Red");
             else
                 cw.combatText.AppendText(e.name + " was stunned for " + turns + " turns!", "Aqua");
         }
@@ -82,7 +82,7 @@ namespace Realm2
             if (isPlayer)
             {
                 p.canAttack = false;
-                window.combatText.AppendText("You are stunned!", "Crimson");
+                window.combatText.AppendText("You are stunned!", "Red");
             }
             else
             {
@@ -109,7 +109,7 @@ namespace Realm2
             type = Type;
             strength = degree;
             if (isPlayer)
-                cw.combatText.AppendText(p.name + " has placed a(n) " + Type + " Curse on " + e.name + " for " + turns + " turns!", "Crimson");
+                cw.combatText.AppendText(p.name + " has placed a(n) " + Type + " Curse on " + e.name + " for " + turns + " turns!", "Red");
             else
                 cw.combatText.AppendText(e.name + " has placed a(n) " + Type + " Curse on " + p.name + " for " + turns + " turns!", "Aqua");
         }
@@ -158,7 +158,7 @@ namespace Realm2
             if (isPlayer)
                 cw.combatText.AppendText(p.name + " is now untargetable.", "Aqua");
             else
-                cw.combatText.AppendText(e.name + " is now untargetable.", "Crimson");
+                cw.combatText.AppendText(e.name + " is now untargetable.", "Red");
         }
         public override void ApplyEffect(object Target)
         {
@@ -183,7 +183,7 @@ namespace Realm2
             turns = Turns;
             window = cw;
             if (isPlayer)
-                cw.combatText.AppendText(p.name + " cannot heal for " + turns + " turns!", "Crimson");
+                cw.combatText.AppendText(p.name + " cannot heal for " + turns + " turns!", "Red");
             else
                 cw.combatText.AppendText(e.name + " cannot heal for " + turns + " turns!", "Aqua");
         }

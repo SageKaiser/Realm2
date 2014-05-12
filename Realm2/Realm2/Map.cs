@@ -35,6 +35,17 @@ namespace Realm2
                     return place.location;
             return new Tuple<int, int>(-1, -1);
         }
+        public Place getPlace(Tuple<int, int> location)
+        {
+            try
+            {
+                return placeMap[location.Item1, location.Item2];
+            }
+            catch(IndexOutOfRangeException)
+            {
+                return null;
+            }
+        }
         public Map(int size)
         {
             places = new List<Place>() { };
@@ -51,26 +62,24 @@ namespace Realm2
     }
     public class Position
     {
+        private int X;
         public int x
         {
-            get { return x; }
+            get { return X; }
             set 
             {
-                if (value >= Program.main.map.GetSize(1) || value < 0)
-                    x = x;
-                else
-                    x = value;
+                if (value >= 0 && value < Program.main.map.GetSize(1))
+                    X = value;
             }
         }
+        private int Y;
         public int y
         {
-            get { return y; }
+            get { return Y; }
             set
             {
-                if (value >= Program.main.map.GetSize(0) || value < 0)
-                    x = x;
-                else
-                    x = value;
+                if (value >= 0 && value < Program.main.map.GetSize(0))
+                    Y = value;
             }
         }
     }
@@ -100,8 +109,7 @@ namespace Realm2
             cmd = cmd.ToLower();
             obj = obj.ToLower();
             object target = null;
-            Type t = Type.GetType("Realm2." + cmd);
-            Command command = (Command)Activator.CreateInstance(t);
+            Command command = (Command)Activator.CreateInstance(Type.GetType("Realm2." + cmd));
             switch(obj)
             {
                 case "library":
@@ -138,8 +146,25 @@ namespace Realm2
         public SunKingdom()
         {
             name = "Kingdom of the Sun";
-            desc = "As you step into the glorious golden gates of the Kingdom of the Sun, you are blinded by the eternal burning star that hangs over the city, eternally bathing it in light. This city has a Merchant, an Inn, and a Library.";
+            desc = "As you step into the glorious golden gates of the Kingdom of the Sun, you are blinded by the eternal burning star that hangs over the city, eternally bathing it in light. You see a glowing palace up ahead. This city has a Merchant, an Inn, and a Library.";
             commands = new List<Command>() { new go(), new interact() };
+        }
+        public override bool ExecuteCommand(string cmd, string obj)
+        {
+            if (!base.ExecuteCommand(cmd, obj))
+            {
+                obj = obj.ToLower();
+                Command command = (Command)Activator.CreateInstance(Type.GetType("Realm2." + cmd));
+                if (command is interact && obj == "palace")
+                {
+                    Program.main.gm = GameState.SunPalace;
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
         }
     }
 }
