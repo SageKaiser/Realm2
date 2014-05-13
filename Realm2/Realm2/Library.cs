@@ -14,18 +14,22 @@ namespace Realm2
         public ObservableCollection<Book> books;
         public Library()
         {
-            name = new List<string>() { "Library of Congress", "King's Library", "local library", "National Library", "Elmwood Libaray", "Evergreen Library", "Silvercreek Library", "Library of Ramsey", "Libray of Magic" }[Program.main.rand.Next(0, 10)];
+            //gets a random name
+            name = new List<string>() { "Library of Congress", "King's Library", "local library", "National Library", "Elmwood Libaray", "Evergreen Library", "Silvercreek Library", "Library of Ramsey", "Libray of Magic" }[Program.random.Next(0, 10)];
             hasVisited = false;
             books = new ObservableCollection<Book>();
+            //adds three random books to the Library
             for (int i = 0; i < 3; i++)
-                books.Add(Program.main.mainBookList[Program.main.rand.Next(0, Program.main.mainBookList.Count)]);
+                books.Add(Program.main.mainBookList[Program.random.Next(0, Program.main.mainBookList.Count)]);
         }
         public void Interact(Book book)
         {
+            //if the player hasn't been there
             if (!hasVisited)
             {
-                book.Read();
-                hasVisited = true;
+                //if the player hasn't read the book
+                if (book.Read())
+                    hasVisited = true;
             }
         }
     }
@@ -43,9 +47,12 @@ namespace Realm2
         {
             return name;
         }
-        public void Read()
+        public bool Read()
         {
-            Program.main.player.LearnAbility(ability);
+            if (Program.main.player.LearnAbility(ability))
+                return true;
+            else
+                return false;
         }
     }
 }

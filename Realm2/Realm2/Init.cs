@@ -10,13 +10,14 @@ namespace Realm2
 {
     public class Init
     {
-        public void Initialize(MainWindow window, BackpackWindow bpwindow, ClassRaceChoiceWindow crcwindow)
+        public void Initialize(MainWindow window, BackpackWindow bpwindow, ClassRaceChoiceWindow crcwindow, StatWindow swindow)
         {
-            Program.main = new Main(window, bpwindow, crcwindow);
+            Program.main = new Main(window, bpwindow, crcwindow, swindow);
             bpwindow.itemBox.ItemsSource = Program.main.player.backpack;
             window.Title = "Realm 2: " + GetTitle();
             if (!Program.noUpdate)
             {
+                //if the game needs an update show the update dialog
                 FileIO fi = new FileIO();
                 if (fi.checkver())
                 {
@@ -47,7 +48,7 @@ namespace Realm2
                 "Obama 2016",
                 "muh freedoms"
             };
-            int result = Program.main.rand.Next(0, titlelist.Count);
+            int result = Program.random.Next(0, titlelist.Count);
             return titlelist[result];
         }
     }

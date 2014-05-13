@@ -11,6 +11,11 @@ namespace Realm2
 {
     public static class Extensions
     {
+        /// <summary>
+        /// Extension method to capitalize the first letter of a string
+        /// </summary>
+        /// <param name="source">Source string.</param>
+        /// <returns>The source string wiht the first letter capitalized.</returns>
         public static string ToUpperFirstLetter(this string source)
         {
             if (string.IsNullOrEmpty(source))
@@ -22,6 +27,12 @@ namespace Realm2
             // return the array made of the new char array
             return new string(letters);
         }
+        /// <summary>
+        /// Extension method for writing color to a RichTextBox.
+        /// </summary>
+        /// <param name="box">the RichTextBox to be written to.</param>
+        /// <param name="text">the text to be written to the RichTextBox.</param>
+        /// <param name="color">the color of the text, defined by the Color structure.</param>
         public static void AppendText(this RichTextBox box, string text, string color)
         {
             //initialize a class to convert strings to brush colors
@@ -34,6 +45,13 @@ namespace Realm2
             //if it fails, write it in black
             catch (FormatException) { tr.ApplyPropertyValue(TextElement.ForegroundProperty, bc.ConvertFromString("Black")); }
         }
+        /// <summary>
+        /// Extension method for writing color to a RichTextBox.
+        /// </summary>
+        /// <param name="box">the RichTextBox to be written to.</param>
+        /// <param name="text">the text to be written to the RichTextBox.</param>
+        /// <param name="color">the color of the text, defined by the Color structure.</param>
+        /// <param name="sameLine">True if the text is to be written to the same line as the last text.</param>
         public static void AppendText(this RichTextBox box, string text, string color, bool sameLine)
         {
             BrushConverter bc = new BrushConverter();

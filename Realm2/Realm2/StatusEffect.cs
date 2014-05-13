@@ -25,12 +25,16 @@ namespace Realm2
         public virtual void ApplyEffect(object Target)
         {
             turns--;
+            //safe cast the target to a player to see what it is
             p = Target as Player;
+            //if it isn't nu;;, it's a Player
             if (p != null)
                 isPlayer = true;
+            //otherwise it's an Enenmy
             else
             {
                 isPlayer = false;
+                //set the target to be an Enemy
                 e = Target as Enemy;
             }
         }
@@ -118,6 +122,7 @@ namespace Realm2
             base.ApplyEffect(Target);
             if (isPlayer)
             {
+                //depending on the type of the Curse, subtract that stat each turn
                 switch(type)
                 {
                     case CurseType.Attack:

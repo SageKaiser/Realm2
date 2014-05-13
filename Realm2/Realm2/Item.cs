@@ -28,8 +28,11 @@ namespace Realm2
     public class Item
     {
         public string desc, name;
+        //where the player puts the weapon
         public Slot slot;
+        //what kind of weapon it is
         public WeaponType wt;
+        //buffs
         public int atkbuff, defbuff, spdbuff, intlbuff, tier, value;
         public Item()
         {

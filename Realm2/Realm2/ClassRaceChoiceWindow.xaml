@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Realm2.ClassRaceChoiceWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Select Race/Class" Height="360" Width="640" Closing="Window_Closing" Loaded="Window_Loaded">
+        Title="Select Race/Class" Height="360" Width="640" Closing="Window_Closing" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded" Closed="Window_Closed">
     <Grid>
         <ComboBox ItemsSource="{Binding}" x:Name="raceBox" HorizontalAlignment="Left" Margin="98,19,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="raceBox_SelectionChanged"/>
         <ComboBox ItemsSource="{Binding}" x:Name="classBox" HorizontalAlignment="Left" Margin="419,19,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="classBox_SelectionChanged"/>

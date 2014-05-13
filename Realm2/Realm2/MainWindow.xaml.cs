@@ -31,11 +31,14 @@ namespace Realm2
             bw.Owner = this;
             ClassRaceChoiceWindow crcw = new ClassRaceChoiceWindow();
             crcw.Owner = this;
+            StatWindow sw = new StatWindow();
+            sw.Owner = this;
 
+            sw.Show();
             bw.Show();
             this.Activate();
             Init i = new Init();
-            i.Initialize(this, bw, crcw);
+            i.Initialize(this, bw, crcw, sw);
         }
 
         private void inputText_KeyUp(object sender, KeyEventArgs e)

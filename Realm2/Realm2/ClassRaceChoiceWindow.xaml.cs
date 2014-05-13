@@ -26,8 +26,10 @@ namespace Realm2
 
         private void raceBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            raceDesc.Text = ((Race)raceBox.SelectedItem).desc;
+            //update the description and set the player's race
+            raceDesc.Text = ((Race)raceBox.SelectedItem).desc + "\r\n\r\n" + ((Race)raceBox.SelectedItem).racialTrait;
             Program.main.player.pRace = (Race)raceBox.SelectedItem;
+            //if both boxes have been filled, allow the button to be pressed
             if (classBox.SelectedIndex != -1)
                 button.IsEnabled = true;
         }
@@ -47,10 +49,6 @@ namespace Realm2
                 e.Cancel = true;
                 this.WindowState = System.Windows.WindowState.Minimized;
             }
-            else
-            {
-                onClose();
-            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -66,19 +64,26 @@ namespace Realm2
             raceBox.ItemsSource = Program.main.mainRaceList;
             classBox.ItemsSource = Program.main.mainClassList;
         }
-        private void onClose()
+
+        private void Window_Closed(object sender, EventArgs e)
         {
-            Program.main.write("You have chosen to be a(n) ", "Black");
-            Program.main.write(raceBox.SelectedItem + " " + classBox.SelectedItem, "MediumOrchid", true);
-            Program.main.player.atk = 1 + Program.main.player.pRace.atk_init;
-            Program.main.player.def = 1 + Program.main.player.pRace.def_init;
-            Program.main.player.spd = 1 + Program.main.player.pRace.spd_init;
-            Program.main.player.intl = 1 + Program.main.player.pRace.int_init;
-            Program.main.player.maxhp = 10 + Program.main.player.pRace.hp_init;
-            Program.main.player.hp = Program.main.player.maxhp;
-            Program.main.writeStats();
-            Program.main.mainWindow.IsEnabled = true;
-            Program.main.gm = GameState.Main;
+            try
+            {
+                //update all stats and write required information
+                Program.main.write("You have chosen to be a(n) ", "Black");
+                Program.main.write(raceBox.SelectedItem + " " + classBox.SelectedItem, "MediumOrchid", true);
+                Program.main.player.atk = 1 + Program.main.player.pRace.atk_init;
+                Program.main.player.def = 1 + Program.main.player.pRace.def_init;
+                Program.main.player.spd = 1 + Program.main.player.pRace.spd_init;
+                Program.main.player.intl = 1 + Program.main.player.pRace.int_init;
+                Program.main.player.maxhp = 10 + Program.main.player.pRace.hp_init;
+                Program.main.player.hp = Program.main.player.maxhp;
+                Program.main.writeStats();
+                Program.main.mainWindow.IsEnabled = true;
+                Program.main.gm = GameState.Main;
+            }
+            //this will only happen if the main window is closed during the class and race choice
+            catch (NullReferenceException) { }
         }
     }
 }

@@ -16,7 +16,6 @@ namespace Realm2
     }
     public class Main
     {
-        public Random rand;
         public GameState gm;
         public Player player;
         public Map map;
@@ -26,27 +25,45 @@ namespace Realm2
         public List<Race> mainRaceList;
         public MainWindow mainWindow;
 
-        private Enemy currentEnemy;
         private BackpackWindow bw;
         private ClassRaceChoiceWindow cw;
+        public StatWindow sw;
         private Place currentplace;
 
-        public Main(MainWindow _mainWindow, BackpackWindow bpwindow, ClassRaceChoiceWindow crcwindow)
+        /// <summary>
+        /// Constructs the Main class.
+        /// </summary>
+        /// <param name="_mainWindow">Instance of the MainWindow.</param>
+        /// <param name="bpwindow">Instance of the BackpackWindow</param>
+        /// <param name="crcwindow">Instance of the ClassRaceChoiceWindow</param>
+        /// <param name="swindow">Instance of the StatWindow</param>
+        public Main(MainWindow _mainWindow, BackpackWindow bpwindow, ClassRaceChoiceWindow crcwindow, StatWindow swindow)
         {
+            //save the windows
             mainWindow = _mainWindow;
             bw = bpwindow;
             cw = crcwindow;
+            sw = swindow;
+            //instantiate the player
             player = new Player();
-            rand = new Random();
+            //make a new map
             map = new Map(7);
+
+            //these are for data binding in the ClassRaceChoiceWindow. And any other time you might want a list with all of the Classes and Races
             mainClassList = new List<PlayerClass>() { new Knight(), new Lancer(), new Brawler(), new Mage(), new Ranger(), new Rogue(), new BladeDancer(), new Assassin(), new DreadKnight(), new Jester() };
             mainRaceList = new List<Race>() { new Human(), new Elf(), new Dwarf(), new Orc(), new Lycanthrope(), new Halfdragon(), new Revenant(), new Djinn(), new Vampire(), new Demon() };
         }
+        /// <summary>
+        /// This function is called when the user enters a command.
+        /// </summary>
+        /// <param name="input">The string to be operated upon.</param>
         public void HandleInput(string input)
         {
+            //execute depending on the GameState
             switch (gm)
             {
                 case GameState.GettingPlayerInfo:
+                    //say hello
                     player.name = mainWindow.inputText.Text;
                     write("Welcome, ", "Black");
                     write(player.name, "MediumOrchid", true);
@@ -55,16 +72,24 @@ namespace Realm2
                     mainWindow.IsEnabled = false;
                     break;
                 case GameState.Main:
-                    mainWindow.placeName.Text = "\r\n" + currentplace.name;
+                    //write the current place name and description
+                    write("Current Place: " + currentplace.name, "Black");
                     write(currentplace.desc, "Black");
                     writeStats();
+                    //execute the command entered
+                    currentplace.ExecuteCommand(input.Split()[0], input.Split()[1]);
                     break;
+                case GameState.SunPalace:
+                    
                 case GameState.Dead:
+                    //close the game
                     Environment.Exit(0);
                     break;
                 case GameState.Frozen:
+                    //LEAVE THIS BLANK
                     break;
             }
+            //if the Player's position isn't null, set the currentPlace varable to the Player's current location
             if (player.position != null)
                 currentplace = map.getPlace(new Tuple<int, int>(player.position.x, player.position.y));
         }
@@ -73,15 +98,15 @@ namespace Realm2
         /// </summary>
         public void writeStats()
         {
-            mainWindow.statText.Document.Blocks.Clear();
-            mainWindow.statText.AppendText(player.name + "(" + player.pRace + ")", "Black", true);
-            mainWindow.statText.AppendText("Level " + player.level + " " + player.pClass, "Black");
-            mainWindow.statText.AppendText("HP: " + player.hp + "/" + player.maxhp, "Black");
-            mainWindow.statText.AppendText("Mana: " + player.mana + "/" + player.maxmana, "Black");
-            mainWindow.statText.AppendText("Attack: " + player.atk, "Black");
-            mainWindow.statText.AppendText("Defense: " + player.def, "Black");
-            mainWindow.statText.AppendText("Speed: " + player.spd, "Black");
-            mainWindow.statText.AppendText("Intelligence: " + player.intl, "Black");
+            sw.statText.Document.Blocks.Clear();
+            sw.statText.AppendText(player.name + "(" + player.pRace + ")", "Black", true);
+            sw.statText.AppendText("Level " + player.level + " " + player.pClass, "Black");
+            sw.statText.AppendText("HP: " + player.hp + "/" + player.maxhp, "Black");
+            sw.statText.AppendText("Mana: " + player.mana + "/" + player.maxmana, "Black");
+            sw.statText.AppendText("Attack: " + player.atk, "Black");
+            sw.statText.AppendText("Defense: " + player.def, "Black");
+            sw.statText.AppendText("Speed: " + player.spd, "Black");
+            sw.statText.AppendText("Intelligence: " + player.intl, "Black");
         }
         /// <summary>
         /// Write a string to the main text box
@@ -102,10 +127,25 @@ namespace Realm2
         {
             mainWindow.mainText.AppendText(input, color, sameLine);
         }
-        public void EnterCombat()
+        /// <summary>
+        /// Enter combat with the specified Enemy.
+        /// </summary>
+        /// <param name="e">The Enemy to be fought.</param>
+        public void EnterCombat(Enemy e)
         {
-            CombatWindow cw = new CombatWindow(currentEnemy);
+            player.baseattack = player.atk;
+            player.basedef = player.def;
+            player.basespeed = player.spd;
+            player.baseintl = player.intl;
+            CombatWindow cw = new CombatWindow(e);
             cw.Show();
+        }
+        /// <summary>
+        /// Focuses the input textbox
+        /// </summary>
+        public void focusWindow()
+        {
+            mainWindow.inputText.Focus();
         }
     }
 }

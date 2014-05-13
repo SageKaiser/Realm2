@@ -8,6 +8,12 @@ namespace Realm2
 {
     public class Dice
     {
+        /// <summary>
+        /// Rolls numdice number of dice with numsides sides.
+        /// </summary>
+        /// <param name="numdice">the number of dice to be rolled.</param>
+        /// <param name="numsides">the number of sides of the dice.</param>
+        /// <returns>the result of the roll.</returns>
         public int roll(int numdice, int numsides)
         {
             int total = 0;
@@ -18,6 +24,11 @@ namespace Realm2
             }
             return total;
         }
+        /// <summary>
+        /// Calculates the chance of missing based on target speed.
+        /// </summary>
+        /// <param name="spd">The speed of the target for the ability.</param>
+        /// <returns>true if it hits, false if it misses.</returns>
         public bool misschance(int spd)
         {
             int misschance = roll(1, 101 - (spd * 3));

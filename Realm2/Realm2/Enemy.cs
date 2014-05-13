@@ -3,14 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Realm2
 {
     public class Enemy
     {
         public string name;
-        public int hp, maxhp, atk, def, spd, intl, level;
+        public int maxhp, atk, def, spd, intl, level;
+        private int HP;
+        public int hp
+        {
+            get { return HP; }
+            set
+            {
+                if (HP <= 0)
+                {
+                    Program.main.write(Program.main.player.name + " has defeated ", "Orange");
+                    Program.main.write(name, "LawnGreen", true);
+                    Program.main.write("!", "Orange", true);
+                    Program.main.mainWindow.IsEnabled = true;
+                    foreach (Window w in Program.main.mainWindow.OwnedWindows)
+                        if (w is CombatWindow)
+                            w.Close();
+                }
+            }
+        }
+        //abilities that the Enemy can use
         public List<string> abilities;
+        //List<T> containing all of the current status effects
         public List<StatusEffect> effects = new List<StatusEffect>();
         public bool canAttack = true, canBeHit = true, canHeal = true;
         public virtual string Attack(Player player)
@@ -19,6 +40,7 @@ namespace Realm2
         }
         public void DropLoot()
         {
+            //TODO: Implement the droploot function
         }
     }
     public class Slime : Enemy
@@ -26,8 +48,8 @@ namespace Realm2
         public Slime()
         {
             name = "Slime";
-            level = Program.main.player.level;
-            maxhp = 9 + level;
+            level = Math.Max(Program.random.Next(Program.main.player.level - 3, Program.main.player.level + 4), 1);
+            maxhp = 2 + level;
             hp = maxhp;
             atk = 4 + level;
             spd = 2 + level;
@@ -38,14 +60,14 @@ namespace Realm2
         public override string Attack(Player player)
         {
             Dice d = new Dice();
-            string used = abilities[Program.main.rand.Next(0, abilities.Count)];
+            string used = abilities[Program.random.Next(0, abilities.Count)];
             switch(used)
             {
                 case "Attack":
-                    player.hp -= d.roll(1, atk) - player.def;
+                    player.hp -= Math.Max(d.roll(1, atk) - player.def, 1);
                     break;
                 case "Sticky Smash":
-                    player.hp -= d.roll(2, atk) - player.def;
+                    player.hp -= Math.Max(d.roll(2, atk) - player.def, 1);
                     break;
             }
             return used;
