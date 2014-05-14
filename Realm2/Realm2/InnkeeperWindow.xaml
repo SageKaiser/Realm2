@@ -6,7 +6,7 @@
         <Label x:Name="innName" Content="Innkeeper - " HorizontalAlignment="Left" Margin="89,10,0,0" VerticalAlignment="Top"/>
         <TextBlock x:Name="costBox" HorizontalAlignment="Left" Margin="10,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="59" Width="272"/>
         <Button Content="Stay" HorizontalAlignment="Left" Margin="49,108,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-        <Button Content="Leave" HorizontalAlignment="Left" Margin="169,108,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Leave" HorizontalAlignment="Left" Margin="169,108,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
 
     </Grid>
 </Window>

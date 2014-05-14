@@ -20,10 +20,10 @@ namespace Realm2
     public partial class LibraryWindow : Window
     {
         Library library;
-        public LibraryWindow(Library _library)
+        public LibraryWindow()
         {
             InitializeComponent();
-            library = _library;
+            library = new Library();
             bookBox.ItemsSource = library.books;
         }
 

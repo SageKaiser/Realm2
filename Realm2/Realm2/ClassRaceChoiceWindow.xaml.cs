@@ -80,6 +80,9 @@ namespace Realm2
                 Program.main.player.hp = Program.main.player.maxhp;
                 Program.main.writeStats();
                 Program.main.mainWindow.IsEnabled = true;
+                //write the current place name and description
+                Program.main.write("Current Place: " + Program.main.currentplace.name, "Black");
+                Program.main.write(Program.main.currentplace.desc, "Black");
                 Program.main.gm = GameState.Main;
             }
             //this will only happen if the main window is closed during the class and race choice

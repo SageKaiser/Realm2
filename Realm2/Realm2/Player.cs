@@ -82,6 +82,7 @@ namespace Realm2
             maxmana = 10;
             mana = maxmana;
             backpack = new ObservableCollection<Item>();
+            position = new Position();
             //initial ability
             combatAbilities = new List<Ability>() { new Attack() };
             effects = new List<StatusEffect>();
@@ -113,12 +114,12 @@ namespace Realm2
                 return false;
         }
 
-        public bool Purchase(int cost, Item i)
+        public bool Purchase(Item i)
         {
             //same as previous, but for buying items instead of undescribed things
-            if (g >= cost)
+            if (g >= i.value)
             {
-                g -= cost;
+                g -= i.value;
                 backpack.Add(i);
                 return true;
             }

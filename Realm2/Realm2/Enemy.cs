@@ -17,6 +17,7 @@ namespace Realm2
             get { return HP; }
             set
             {
+                HP = value;
                 if (HP <= 0)
                 {
                     Program.main.write(Program.main.player.name + " has defeated ", "Orange");

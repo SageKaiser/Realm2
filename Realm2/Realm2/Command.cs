@@ -22,17 +22,6 @@ namespace Realm2
         {
             name = "interact";
         }
-        public bool Execute(INPC npc)
-        {
-            npc.Interact();
-            return true;
-        }
-        public bool Execute(Library l)
-        {
-            LibraryWindow lw = new LibraryWindow(l);
-            lw.Show();
-            return true;
-        }
     }
     public class go : Command
     {

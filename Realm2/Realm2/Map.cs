@@ -25,18 +25,6 @@ namespace Realm2
         public Place[,] placeMap;
 
         /// <summary>
-        /// Faster to type than placeMap.GetUpperBound()
-        /// </summary>
-        /// <param name="direction">0 for x, 1 for y</param>
-        /// <returns>size of map in specified direction</returns>
-        public int GetSize(int direction)
-        {
-            if (direction == 0)
-                return placeMap.GetUpperBound(0);
-            else
-                return placeMap.GetUpperBound(1);
-        }
-        /// <summary>
         /// Gets the coordinate of the specified Place.
         /// NOTE: DOES NOT WORK WITH DEFAULT PLACE
         /// </summary>
@@ -45,9 +33,9 @@ namespace Realm2
         public Tuple<int, int> getCoordsOf(Place p)
         {
             foreach(Place place in placeMap)
-                if (place.location == p.location)
+                if (place.GetType() == p.GetType())
                     return place.location;
-            return new Tuple<int, int>(-1, -1);
+           return new Tuple<int, int>(-1, -1);
         }
         /// <summary>
         /// Given coordinates in Tuple form, returns the Place at that location
@@ -72,14 +60,26 @@ namespace Realm2
         public Map(int size)
         {
             placeMap = new Place[size, size];
+            for (int x = 0; x < placeMap.GetLength(0); x++)
+            {
+                for (int y = 0; y < placeMap.GetLength(1); y++)
+                {
+                    placeMap[x, y] = new Place();
+                    placeMap[x, y].location = new Tuple<int, int>(x, y);
+                }
+            }
             for (int i = 0; i < places.Count; i++)
             {
-                Tuple<int, int> coords = new Tuple<int, int>(Program.random.Next(0, GetSize(0)), Program.random.Next(0, GetSize(1)));
-                if (placeMap[coords.Item1, coords.Item2] == null || placeMap[coords.Item1, coords.Item2] is Place)
+                //get random location
+                Tuple<int, int> coords = new Tuple<int, int>(Program.random.Next(0, placeMap.GetUpperBound(0)), Program.random.Next(0, placeMap.GetUpperBound(1)));
+                //makse sure it's not occupied
+                if (placeMap[coords.Item1, coords.Item2].GetType() == typeof(Place))
                 {
                     placeMap[coords.Item1, coords.Item2] = places[i];
+                    placeMap[coords.Item1, coords.Item2].location = coords;
                     places.Remove(places[i]);
                 }
+                //redo it if it's occupied
                 else
                     i--;
             }
@@ -94,7 +94,7 @@ namespace Realm2
             set 
             {
                 //check if the value is between 0 and the map size
-                if (value >= 0 && value < Program.main.map.GetSize(1))
+                if (value >= 0 && value < Program.main.map.placeMap.GetUpperBound(1))
                     X = value;
             }
         }
@@ -105,7 +105,7 @@ namespace Realm2
             set
             {
                 //check if the value is between 0 and the map size
-                if (value >= 0 && value < Program.main.map.GetSize(0))
+                if (value >= 0 && value < Program.main.map.placeMap.GetUpperBound(0))
                     Y = value;
             }
         }
@@ -137,21 +137,6 @@ namespace Realm2
             //etc...
         }
         /// <summary>
-        /// Gets a collection of Items relevant to the Player's level.
-        /// </summary>
-        /// <returns>An ObservableCollection of relevant Items.</returns>
-        public ObservableCollection<Item> getRelevantItemSet()
-        {
-            ObservableCollection<Item> items = new ObservableCollection<Item>();
-            //gets a random number of Items between 1 and 5.
-            int numberOfItems = Program.random.Next(1, 6);
-            for (int i = 0; i < numberOfItems; i++)
-            {
-
-            }
-            return items;
-        }
-        /// <summary>
         /// 20% of putting the player into combat with a relevant Enemy.
         /// </summary>
         public void checkCombat()
@@ -174,43 +159,42 @@ namespace Realm2
             //convert input to lowercase
             cmd = cmd.ToLower();
             obj = obj.ToLower();
-            //set target to null
-            object target = null;
 
+            Command command;
             //convert cmd into a Command
-            Command command = (Command)Activator.CreateInstance(Type.GetType("Realm2." + cmd));
-            //execute depending on what obj is
-            switch(obj)
-            {
-                case "library":
-                    target = new Library();
-                    break;
-                case "merchant":
-                    target = new Merchant(getRelevantItemSet());
-                    break;
-                case "inn":
-                    target = new Innkeeper();
-                    break;
-                case "innkeeper":
-                    target = new Innkeeper();
-                    break;
-            }
-            //if you can use the Command and the target isn't null
-            if (commands.Contains(command) && target != null)
-            {
-                //If the Command is 'interact', interact with the target
-                if (command is interact)
-                    ((interact)command).Execute(target);
+            try { command = (Command)Activator.CreateInstance(Type.GetType("Realm2." + cmd)); }
+            catch (ArgumentNullException) { return false; }
 
+            //if you can use the Command
+            if (commands.Any(c => c.name == command.name))
+            {
                 //otherwise go in the specified direction
-                else if (command is go)
+                if (command is go)
                 {
                     //return false if it isn't a valid direction
-                    if (obj != "north" && obj != "south" && obj != "east" && obj != "west")
+                    if (obj == "north" || obj == "south" || obj == "east" || obj == "west")
+                    {
+                        ((go)command).Execute(Enum.Parse(typeof(Direction), obj));
+                        return true;
+                    }
+                    else
                         return false;
-                    ((go)command).Execute(Enum.Parse(typeof(Direction), obj));
                 }
-                return true;
+                else if (command is interact)
+                {
+                    if (obj == "merchant" || obj == "inn" || obj == "innkeeper" || obj == "library")
+                    {
+                        if (obj == "inn")
+                            obj = "innkeeper";
+                        Window window = (Window)(Activator.CreateInstance(Type.GetType("Realm2." + obj.ToUpperFirstLetter() + "Window")));
+                        window.Show();
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+                else
+                    return false;
             }
             else
                 return false;

@@ -22,6 +22,8 @@ namespace Realm2
         public InnkeeperWindow()
         {
             InitializeComponent();
+            innName.Content += new List<string>() { "Jean-Philippe", "Jacques-Cartier", "Bill", "Hank", "Ernie", "Margie", "Claude", "Gomie", "Chambers", "Takeshi" }[Program.random.Next(0, 10)];
+            costBox.Text = "Would you like to stay at the inn for " + (Program.main.player.level < 5 ? 10 : Program.main.player.level * 2) + " gold?";
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -31,6 +33,11 @@ namespace Realm2
             {
                 costBox.Text = "Your health and mana have been restored.";
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

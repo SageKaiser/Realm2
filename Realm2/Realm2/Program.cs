@@ -23,6 +23,7 @@ namespace Realm2
         [DllImport("wininet.dll")]
         public extern static bool InternetGetConnectedState(out int Description, int ReservedValue);
 
+        [STAThread]
         static void Main(string[] args)
         {
             //checking for command-line arguments

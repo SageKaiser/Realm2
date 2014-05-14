@@ -85,5 +85,13 @@ namespace Realm2
         {
             inputText.Focus();
         }
+
+        private void mainWindow_StateChanged(object sender, EventArgs e)
+        {
+            foreach (Window window in Application.Current.Windows)
+            {
+                window.WindowState = this.WindowState;
+            }
+        }
     }
 }

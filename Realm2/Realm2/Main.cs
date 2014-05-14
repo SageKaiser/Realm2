@@ -28,7 +28,7 @@ namespace Realm2
         private BackpackWindow bw;
         private ClassRaceChoiceWindow cw;
         public StatWindow sw;
-        private Place currentplace;
+        public Place currentplace;
 
         /// <summary>
         /// Constructs the Main class.
@@ -70,6 +70,9 @@ namespace Realm2
                     write(" to Realm 2.", "Black", true);
                     cw.Show();
                     mainWindow.IsEnabled = false;
+                    int x = map.getCoordsOf(new SunKingdom()).Item1;
+                    player.position.x = map.getCoordsOf(new SunKingdom()).Item1;
+                    player.position.y = map.getCoordsOf(new SunKingdom()).Item2;
                     break;
                 case GameState.Main:
                     //write the current place name and description
@@ -77,6 +80,11 @@ namespace Realm2
                     write(currentplace.desc, "Black");
                     writeStats();
                     //execute the command entered
+                    if (input.Split().Length < 2)
+                    {
+                        write("Please enter an object to operate on.", "Red");
+                        break;
+                    }
                     currentplace.ExecuteCommand(input.Split()[0], input.Split()[1]);
                     break;
                 case GameState.SunPalace:
@@ -107,6 +115,7 @@ namespace Realm2
             sw.statText.AppendText("Defense: " + player.def, "Black");
             sw.statText.AppendText("Speed: " + player.spd, "Black");
             sw.statText.AppendText("Intelligence: " + player.intl, "Black");
+            sw.statText.AppendText("Gold: " + player.g, "Gold");
         }
         /// <summary>
         /// Write a string to the main text box
