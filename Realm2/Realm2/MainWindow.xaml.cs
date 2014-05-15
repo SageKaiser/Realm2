@@ -45,6 +45,8 @@ namespace Realm2
         {
             if (e.Key == Key.Enter)
             {
+                if (Program.dev && inputText.Text == "-combat")
+                    Program.main.EnterCombat(new Slime());
                 Program.main.HandleInput(this.inputText.Text);
                 this.inputText.Text = String.Empty;
             }

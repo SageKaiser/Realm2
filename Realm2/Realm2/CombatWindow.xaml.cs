@@ -102,15 +102,19 @@ namespace Realm2
                     else
                         Program.main.player.effects[i].ApplyEffect(Program.main.player);
                 }
+                //if the Player is an Orc and he's missing health
                 if (Program.main.player.pRace is Orc && Program.main.player.hp != Program.main.player.maxhp)
                 {
                     float mod = 1.0f - (float)(Program.main.player.hp / Program.main.player.maxhp);
                     Program.main.player.atk = Convert.ToInt32(Program.main.player.atk * mod);
                 }
-                //check to see that nothing's blocking the player from attacking
+                //check to see that nothing's blocking the Player from attacking
                 if (Program.main.player.canAttack)
                 {
+                    int damage = 0;
+                    //determine if the player missed
                     bool result = d.misschance(enemy.spd);
+                    //if you're an elf
                     if (!result || Program.main.player.pRace is Elf)
                     {
                         if (!result && Program.main.player.pRace is Elf)
@@ -126,7 +130,11 @@ namespace Realm2
                         switch (used.TargetType)
                         {
                             case targetType.Enemy:
-                                used.Execute(enemy);
+                                damage = Program.main.player.canBeHit? used.Execute(enemy) : 0;
+                                if (Program.main.player.pRace is Demon && (enemy.effects.FindIndex(ef => ef.isNegative == true) >= 0))
+                                    enemy.hp -= Convert.ToInt32(damage + (damage * 1.33));
+                                else
+                                    enemy.hp -= damage;
                                 break;
                             case targetType.Self:
                                 used.Execute(Program.main.player);
@@ -149,9 +157,10 @@ namespace Realm2
                             write("has lowered the enemy's defense!", "Black", true);
                             enemy.def -= 1;
                         }
-                        //set damage to be 0 if the enemy cannot be hit
-                        int damage = enemy.canBeHit ? (prevehp - enemy.hp) : 0;
-                        write(enemy.name + " took " + damage + " damage.", "Aqua");
+
+                        if (used.TargetType == targetType.Self)
+                            write(enemy.name + " took " + damage + " damage.", "Aqua");
+
                         if (Program.main.player.pRace is Vampire && damage != 0)
                         {
                             int heal = Convert.ToInt32(damage * .1);
@@ -210,6 +219,7 @@ namespace Realm2
                     }
                     write(enemy.name + " used " + used + ".", "Red");
                     write(Program.main.player.name + " took " + damage + " damage.", "Red");
+                    Program.main.player.hp -= damage;
                 }
                 else
                     write(enemy.name + " missed!", "Gray");

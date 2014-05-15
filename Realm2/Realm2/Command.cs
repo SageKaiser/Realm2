@@ -72,9 +72,9 @@ namespace Realm2
         public Dice d = new Dice();
         public string name;
         public int manacost;
-        public virtual bool Execute(object target)
+        public virtual int Execute(object target)
         {
-            return false;
+            return 0;
         }
         public override string ToString()
         {
@@ -90,10 +90,9 @@ namespace Realm2
             TargetType = targetType.Enemy;
             manacost = 0;
         }
-        public override bool Execute(object target)
+        public override int Execute(object target)
         {
-            ((Enemy)target).hp -= Math.Max((d.roll(1, Program.main.player.atk) + 4) - ((Enemy)target).def, 1);
-            return true;
+            return Math.Max((d.roll(1, Program.main.player.atk) + 4) - ((Enemy)target).def, 1);;
         }
     }
     public class EnergyBlast : Ability
@@ -105,10 +104,9 @@ namespace Realm2
             TargetType = targetType.Enemy;
             manacost = 1;
         }
-        public override bool Execute(object target)
+        public override int Execute(object target)
         {
-            ((Enemy)target).hp -= Math.Max((d.roll(1, Program.main.player.intl) + 2) - (((Enemy)target).def / 2), 1);
-            return true;
+            return Math.Max((d.roll(1, Program.main.player.intl) + 2) - (((Enemy)target).def / 2), 1);
         }
     }
     public class Cleanse : Ability
@@ -120,14 +118,14 @@ namespace Realm2
             TargetType = targetType.Self;
             manacost = 0;
         }
-        public override bool Execute(object target)
+        public override int Execute(object target)
         {
             Player p = target as Player;
             //remove all debuffs from the Player
             for (int i = p.effects.Count; i > -1; i-- )
                 if (p.effects[i].isNegative)
                     p.effects.RemoveAt(i);
-            return true;
+            return 0;
         }
     }
 }

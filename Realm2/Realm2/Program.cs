@@ -13,8 +13,8 @@ namespace Realm2
         //make a public static instance of Main
         public static Main main;
 
-        //noUpdate: doesn't check for an update; bypassConfirmation: doesn't ask if the user is sure
-        public static bool noUpdate = false, bypassConfirmation = false;
+        //noUpdate: doesn't check for an update; bypassConfirmation: doesn't ask if the user is sure; dev allows for developer commands
+        public static bool noUpdate = false, bypassConfirmation = false, dev = false;
 
         //random for everyone to use
         public static readonly Random random = new Random();
@@ -31,6 +31,8 @@ namespace Realm2
                 noUpdate = true;
             if (args.Contains("-bypassconfirm"))
                 bypassConfirmation = true;
+            if (args.Contains("-dev"))
+                dev = true;
 
             //make a new instance of the App
             Realm2.App app = new Realm2.App();
