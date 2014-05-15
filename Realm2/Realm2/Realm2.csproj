@@ -79,6 +79,7 @@
     <Compile Include="Dice.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="PlayerAttributes.cs" />
     <Compile Include="StatusEffect.cs" />
     <Compile Include="StatWindow.xaml.cs">
       <DependentUpon>StatWindow.xaml</DependentUpon>

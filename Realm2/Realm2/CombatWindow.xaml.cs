@@ -21,9 +21,11 @@ namespace Realm2
     {
         public Enemy enemy;
         public bool isPlayerTurn;
+        Dice d;
         public CombatWindow(Enemy e)
         {
             InitializeComponent();
+            d = new Dice();
             //disable the main window
             Program.main.mainWindow.IsEnabled = false;
             //save the enemy
@@ -47,6 +49,11 @@ namespace Realm2
                 Program.main.player.spd += difference;
                 Program.main.player.intl += difference;
             }
+            else if (Program.main.player.pRace is Orc && Program.main.player.hp != Program.main.player.maxhp)
+            {
+                float mod = 1.0f - (float)(Program.main.player.hp / Program.main.player.maxhp);
+                Program.main.player.atk = Convert.ToInt32(Program.main.player.atk * mod);
+            }
             //write the stats
             writeEnemyStats();
             Program.main.writeStats();
@@ -57,8 +64,7 @@ namespace Realm2
             else
             {
                 goButton.IsEnabled = false;
-                if(enemy.canAttack)
-                    enemy.Attack(Program.main.player);
+                EnemyAttack(enemy);
                 isPlayerTurn = true;
                 goButton.IsEnabled = true;
             }
@@ -96,28 +102,67 @@ namespace Realm2
                     else
                         Program.main.player.effects[i].ApplyEffect(Program.main.player);
                 }
+                if (Program.main.player.pRace is Orc && Program.main.player.hp != Program.main.player.maxhp)
+                {
+                    float mod = 1.0f - (float)(Program.main.player.hp / Program.main.player.maxhp);
+                    Program.main.player.atk = Convert.ToInt32(Program.main.player.atk * mod);
+                }
                 //check to see that nothing's blocking the player from attacking
                 if (Program.main.player.canAttack)
                 {
-                    //use the selected Ability
-                    Ability used = (Ability)abilityPicker.SelectedItem;
-                    int prevehp = enemy.hp;
-                    //change target based on the type of Ability
-                    switch (used.TargetType)
+                    bool result = d.misschance(enemy.spd);
+                    if (!result || Program.main.player.pRace is Elf)
                     {
-                        case targetType.Enemy:
-                            used.Execute(enemy);
-                            break;
-                        case targetType.Self:
-                            used.Execute(Program.main.player);
-                            break;
+                        if (!result && Program.main.player.pRace is Elf)
+                        {
+                            write(Program.main.player.name + "'s ", "Black");
+                            write("Keen Shot ", "Aqua", true);
+                            write("prevented a miss!", "Black", true);
+                        }
+                        //use the selected Ability
+                        Ability used = (Ability)abilityPicker.SelectedItem;
+                        int prevehp = enemy.hp;
+                        //change target based on the type of Ability
+                        switch (used.TargetType)
+                        {
+                            case targetType.Enemy:
+                                used.Execute(enemy);
+                                break;
+                            case targetType.Self:
+                                used.Execute(Program.main.player);
+                                break;
+                        }
+                        write(Program.main.player.name + " used ", "Black");
+                        write(used.name, "Indigo", true);
+                        write(".", "Black", true);
+                        if (used.Type == type.Physical && Program.main.player.pRace is Halfdragon)
+                        {
+                            write(Program.main.player.name + "'s ", "Black");
+                            write("Burning Scales ", "Aqua", true);
+                            write("have ignited the enemy!", "Black", true);
+                            enemy.effects.Add(new OnFire(3, 1, this));
+                        }
+                        else if (used.Type == type.Magical && Program.main.player.pRace is Djinn)
+                        {
+                            write(Program.main.player.name + "'s ", "Black");
+                            write("Power Tap ", "Aqua", true);
+                            write("has lowered the enemy's defense!", "Black", true);
+                            enemy.def -= 1;
+                        }
+                        //set damage to be 0 if the enemy cannot be hit
+                        int damage = enemy.canBeHit ? (prevehp - enemy.hp) : 0;
+                        write(enemy.name + " took " + damage + " damage.", "Aqua");
+                        if (Program.main.player.pRace is Vampire && damage != 0)
+                        {
+                            int heal = Convert.ToInt32(damage * .1);
+                            write(Program.main.player.name + "'s ", "Black");
+                            write("Life Drain ", "Aqua", true);
+                            write("has healed " + Program.main.player.name + " for " + heal + " hp!", "Black", true);
+                            Program.main.player.hp += heal;
+                        }
                     }
-                    write(Program.main.player.name + " used ", "Black");
-                    write(used.name, "Indigo", true);
-                    write(".", "Black", true);
-                    //set damage to be 0 if the enemy cannot be hit
-                    int damage = enemy.canBeHit ? (prevehp - enemy.hp) : 0;
-                    write(enemy.name + " took " + damage + " damage.", "Aqua");
+                    else
+                        write(Program.main.player.name + " missed!", "Gray");
                 }
                 //update stats
                 Program.main.writeStats();
@@ -134,19 +179,41 @@ namespace Realm2
                     else
                         enemy.effects[i].ApplyEffect(enemy);
                 }
-                //attack the Player
-                if (enemy.canAttack)
-                {
-                    int prevPlayerhp = Program.main.player.hp;
-                    write(enemy.name + " used " + enemy.Attack(Program.main.player) + ".", "Red");
-                    int damage = Program.main.player.canBeHit ? (prevPlayerhp - Program.main.player.hp) : 0;
-                    write(Program.main.player.name + " took " + damage + " damage.", "Red");
-                }
+                EnemyAttack(enemy);
                 writeEnemyStats();
                 Program.main.writeStats();
                 isPlayerTurn = true;
             }
                 
+        }
+
+        private void EnemyAttack(Enemy enemy)
+        {
+            //attack the Player
+            if (enemy.canAttack)
+            {
+                if (!d.misschance(Program.main.player.spd))
+                {
+                    string used = "";
+                    int damage = Program.main.player.canBeHit ? enemy.Attack(Program.main.player, out used) : 0;
+                    if (Program.main.player.pRace is Dwarf)
+                    {
+                        if (Program.main.player.hp <= (int)Program.main.player.hp / 5)
+                        {
+                            damage /= 2;
+                            write(Program.main.player.name + "'s ", "Black");
+                            write("Reinforced Armor ", "Aqua", true);
+                            write("has halved the incoming damage!", "Black", true);
+                        }
+                        else
+                            damage -= ((damage * 100) / 15);
+                    }
+                    write(enemy.name + " used " + used + ".", "Red");
+                    write(Program.main.player.name + " took " + damage + " damage.", "Red");
+                }
+                else
+                    write(enemy.name + " missed!", "Gray");
+            }
         }
 
         private void combatText_TextChanged(object sender, TextChangedEventArgs e) { combatText.ScrollToEnd(); }

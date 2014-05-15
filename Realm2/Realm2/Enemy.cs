@@ -35,9 +35,10 @@ namespace Realm2
         //List<T> containing all of the current status effects
         public List<StatusEffect> effects = new List<StatusEffect>();
         public bool canAttack = true, canBeHit = true, canHeal = true;
-        public virtual string Attack(Player player)
+        public virtual int Attack(Player player, out string used)
         {
-            return "";
+            used =  "";
+            return 0;
         }
         public void DropLoot()
         {
@@ -58,20 +59,21 @@ namespace Realm2
             intl = 0 + level;
             abilities = new List<string>() { "Attack", "Sticky Smash" };
         }
-        public override string Attack(Player player)
+        public override int Attack(Player player, out string used)
         {
             Dice d = new Dice();
-            string used = abilities[Program.random.Next(0, abilities.Count)];
+            int dmg = 0;
+            used = abilities[Program.random.Next(0, abilities.Count)];
             switch(used)
             {
                 case "Attack":
-                    player.hp -= Math.Max(d.roll(1, atk) - player.def, 1);
+                    dmg = Math.Max(d.roll(1, atk) - player.def, 1);
                     break;
                 case "Sticky Smash":
-                    player.hp -= Math.Max(d.roll(2, atk) - player.def, 1);
+                    dmg = Math.Max(d.roll(2, atk) - player.def, 1);
                     break;
             }
-            return used;
+            return dmg;
         }
     }
 }

@@ -83,6 +83,10 @@ namespace Realm2
                 //write the current place name and description
                 Program.main.write("Current Place: " + Program.main.currentplace.name, "Black");
                 Program.main.write(Program.main.currentplace.desc, "Black");
+                if (Program.main.player.pRace is Lycanthrope)
+                {
+                    //TODO: wolfey stuff
+                }
                 Program.main.gm = GameState.Main;
             }
             //this will only happen if the main window is closed during the class and race choice

@@ -24,11 +24,12 @@ namespace Realm2
         public List<PlayerClass> mainClassList;
         public List<Race> mainRaceList;
         public MainWindow mainWindow;
+        public StatWindow sw;
+        public Place currentplace;
 
         private BackpackWindow bw;
         private ClassRaceChoiceWindow cw;
-        public StatWindow sw;
-        public Place currentplace;
+        private bool lastCommandFailed = true, rev_hasDied = false;
 
         /// <summary>
         /// Constructs the Main class.
@@ -78,17 +79,27 @@ namespace Realm2
                     player.position.y = map.getCoordsOf(new SunKingdom()).Item2;
                     break;
                 case GameState.Main:
-                    //write the current place name and description
-                    write("Current Place: " + currentplace.name, "Black");
-                    write(currentplace.desc, "Black");
+                    if (!lastCommandFailed)
+                    {
+                        //write the current place name and description
+                        write("Current Place: " + currentplace.name, "Black");
+                        write(currentplace.desc, "Black");
+                    }
                     writeStats();
                     //execute the command entered
                     if (input.Split().Length < 2)
                     {
                         write("Please enter an object to operate on.", "Red");
+                        lastCommandFailed = true;
                         break;
                     }
-                    currentplace.ExecuteCommand(input.Split()[0], input.Split()[1]);
+                    if (!currentplace.ExecuteCommand(input.Split()[0], input.Split()[1]))
+                    {
+                        write("You cannot '" + input + "' here.", "Red");
+                        lastCommandFailed = true;
+                    }
+                    else
+                        lastCommandFailed = false;
                     break;
                 case GameState.SunPalace:
                     

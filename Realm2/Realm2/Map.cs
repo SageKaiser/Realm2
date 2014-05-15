@@ -212,7 +212,9 @@ namespace Realm2
             if (!base.ExecuteCommand(cmd, obj))
             {
                 obj = obj.ToLower();
-                Command command = (Command)Activator.CreateInstance(Type.GetType("Realm2." + cmd));
+                Command command;
+                try { command = (Command)Activator.CreateInstance(Type.GetType("Realm2." + cmd)); }
+                catch (ArgumentNullException) { return false; }
                 
                 //check if the command was 'interact palace'
                 if (command is interact && obj == "palace")
