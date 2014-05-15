@@ -49,6 +49,9 @@ namespace Realm2
             //make a new map
             map = new Map(7);
 
+            //for the libraries
+            mainBookList = new List<Book>() { };
+
             //these are for data binding in the ClassRaceChoiceWindow. And any other time you might want a list with all of the Classes and Races
             mainClassList = new List<PlayerClass>() { new Knight(), new Lancer(), new Brawler(), new Mage(), new Ranger(), new Rogue(), new BladeDancer(), new Assassin(), new DreadKnight(), new Jester() };
             mainRaceList = new List<Race>() { new Human(), new Elf(), new Dwarf(), new Orc(), new Lycanthrope(), new Halfdragon(), new Revenant(), new Djinn(), new Vampire(), new Demon() };

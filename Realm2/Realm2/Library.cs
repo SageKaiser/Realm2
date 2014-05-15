@@ -19,8 +19,8 @@ namespace Realm2
             hasVisited = false;
             books = new ObservableCollection<Book>();
             //adds three random books to the Library
-            for (int i = 0; i < 3; i++)
-                books.Add(Program.main.mainBookList[Program.random.Next(0, Program.main.mainBookList.Count)]);
+            //for (int i = 0; i < 3; i++)
+            //    books.Add(Program.main.mainBookList[Program.random.Next(0, Program.main.mainBookList.Count)]);
         }
         public void Interact(Book book)
         {

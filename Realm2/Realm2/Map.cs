@@ -177,8 +177,6 @@ namespace Realm2
                         ((go)command).Execute(Enum.Parse(typeof(Direction), obj));
                         return true;
                     }
-                    else
-                        return false;
                 }
                 else if (command is interact)
                 {
@@ -186,18 +184,18 @@ namespace Realm2
                     {
                         if (obj == "inn")
                             obj = "innkeeper";
-                        Window window = (Window)(Activator.CreateInstance(Type.GetType("Realm2." + obj.ToUpperFirstLetter() + "Window")));
+                        Type t = Type.GetType("Realm2." + obj.ToUpperFirstLetter() + "Window");
+                        Window window;
+                        if (t == typeof(LibraryWindow))
+                            window = (Window)(Activator.CreateInstance(t, new Library()));
+                        else
+                            window = (Window)(Activator.CreateInstance(t));
                         window.Show();
                         return true;
                     }
-                    else
-                        return false;
                 }
-                else
-                    return false;
             }
-            else
-                return false;
+            return false;
         }
     }
     public class SunKingdom : Place

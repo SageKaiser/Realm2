@@ -36,14 +36,21 @@ namespace Realm2
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Program.main.player.Purchase((Item)forsaleBox.SelectedItem);
+            if (forsaleBox.SelectedIndex != -1)
+            {
+                Program.main.player.Purchase((Item)forsaleBox.SelectedItem);
+                Program.main.writeStats();
+            }
         }
 
         private void sellButton_Click(object sender, RoutedEventArgs e)
         {
-            Program.main.player.g += Convert.ToInt32(((Item)bpBox.SelectedItem).value * .4);
-            Program.main.player.backpack.Remove((Item)bpBox.SelectedItem);
-            Program.main.writeStats();
+            if (bpBox.SelectedIndex != -1)
+            {
+                Program.main.player.g += Convert.ToInt32(((Item)bpBox.SelectedItem).value * .4);
+                Program.main.player.backpack.Remove((Item)bpBox.SelectedItem);
+                Program.main.writeStats();
+            }
         }
         /// <summary>
         /// Gets a collection of Items relevant to the Player's level.
