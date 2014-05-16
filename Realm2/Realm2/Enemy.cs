@@ -23,6 +23,7 @@ namespace Realm2
                     Program.main.write(Program.main.player.name + " has defeated ", "Orange");
                     Program.main.write(name, "LawnGreen", true);
                     Program.main.write("!", "Orange", true);
+                    DropLoot();
                     Program.main.mainWindow.IsEnabled = true;
                     foreach (Window w in Program.main.mainWindow.OwnedWindows)
                         if (w is CombatWindow)
@@ -42,7 +43,8 @@ namespace Realm2
         }
         public void DropLoot()
         {
-            //TODO: Implement the droploot function
+            Program.main.player.xp += Program.random.Next(1, 4 + level);
+            Program.main.player.xp += Program.random.Next(3, 6 + level);
         }
     }
     public class Slime : Enemy
